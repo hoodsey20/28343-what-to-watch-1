@@ -1,6 +1,7 @@
 import React from 'react';
-import Main from '../main/main.jsx';
 import PropTypes from 'prop-types';
+
+import Main from '../main/main.jsx';
 
 export default class App extends React.Component {
   render() {
@@ -15,5 +16,11 @@ export default class App extends React.Component {
 }
 
 App.propTypes = {
-  movies: PropTypes.arrayOf(PropTypes.string)
+  movies: PropTypes.arrayOf(
+      PropTypes.shape({
+        id: PropTypes.number.isRequired,
+        name: PropTypes.string.isRequired,
+        cover: PropTypes.string.isRequired,
+      })
+  ).isRequired,
 };

@@ -1,7 +1,7 @@
 import React from 'react';
 import renderer from 'react-test-renderer';
 
-import Main from './main.jsx';
+import MoviesList from './movies-list.jsx';
 
 const mock = [
   {
@@ -16,9 +16,10 @@ const mock = [
   },
 ];
 
-it(`Main is rendered correctly`, () => {
-  const tree = renderer.create(<Main
+it(`MoviesList is rendered correctly`, () => {
+  const tree = renderer.create(<MoviesList
     movies={mock}
+    onClick={jest.fn()}
   />).toJSON();
 
   expect(tree).toMatchSnapshot();
