@@ -25,9 +25,12 @@ const mock = [
 ];
 
 it(`App is rendered correctly`, () => {
+  function createNodeMock() {
+    return {};
+  }
   const tree = renderer.create(<App
     movies={mock}
-  />).toJSON();
+  />, {createNodeMock}).toJSON();
 
   expect(tree).toMatchSnapshot();
 });

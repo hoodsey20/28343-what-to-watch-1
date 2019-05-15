@@ -15,15 +15,11 @@ const mockMovie = {
 
 it(`SmallMoovieCard card is rendered correctly`, () => {
 
-  function createNodeMock() {
-    return {};
-  }
-
   const tree = renderer.create(<SmallMoovieCard
     movie={mockMovie}
     onClick={jest.fn()}
     isPlaying={false}
-  />, {createNodeMock}).toJSON();
+  />).toJSON();
 
   expect(tree).toMatchSnapshot();
 });

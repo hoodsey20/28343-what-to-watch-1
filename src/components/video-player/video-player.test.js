@@ -13,15 +13,11 @@ const mockData = {
 it(`VideoPlayer is rendered correctly`, () => {
   const {isPlaying, cover, src} = mockData;
 
-  function createNodeMock() {
-    return {};
-  }
-
   const tree = renderer.create(<VideoPlayer
     isPlaying={isPlaying}
     cover={cover}
     src={src}
-  />, {createNodeMock}).toJSON();
+  />).toJSON();
 
   expect(tree).toMatchSnapshot();
 });

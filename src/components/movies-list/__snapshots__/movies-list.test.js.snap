@@ -9,21 +9,24 @@ exports[`MoviesList is rendered correctly 1`] = `
     onMouseEnter={[Function]}
     onMouseLeave={[Function]}
   >
-    <button
-      className="small-movie-card__play-btn"
-      type="button"
-    >
-      Play
-    </button>
     <div
       className="small-movie-card__image"
     >
-      <img
-        alt="Fantastic Beasts: The Crimes of Grindelwald"
+      <video
         height="175"
-        src="img/fantastic-beasts-the-crimes-of-grindelwald.jpg"
-        width="280"
-      />
+        muted={true}
+        poster="img/fantastic-beasts-the-crimes-of-grindelwald.jpg"
+        width="250"
+      >
+        <source
+          src="https://download.blender.org/durian/trailer/sintel_trailer-480p.mp4"
+          type="video/mp4"
+        />
+        <source
+          src="https://upload.wikimedia.org/wikipedia/commons/transcoded/b/b3/Big_Buck_Bunny_Trailer_400p.ogv/Big_Buck_Bunny_Trailer_400p.ogv.360p.webm"
+          type="video/webm"
+        />
+      </video>
     </div>
     <h3
       className="small-movie-card__title"
@@ -42,21 +45,24 @@ exports[`MoviesList is rendered correctly 1`] = `
     onMouseEnter={[Function]}
     onMouseLeave={[Function]}
   >
-    <button
-      className="small-movie-card__play-btn"
-      type="button"
-    >
-      Play
-    </button>
     <div
       className="small-movie-card__image"
     >
-      <img
-        alt="Bohemian Rhapsody"
+      <video
         height="175"
-        src="img/bohemian-rhapsody.jpg"
-        width="280"
-      />
+        muted={true}
+        poster="img/bohemian-rhapsody.jpg"
+        width="250"
+      >
+        <source
+          src="https://download.blender.org/durian/trailer/sintel_trailer-480p.mp4"
+          type="video/mp4"
+        />
+        <source
+          src="https://upload.wikimedia.org/wikipedia/commons/transcoded/b/b3/Big_Buck_Bunny_Trailer_400p.ogv/Big_Buck_Bunny_Trailer_400p.ogv.360p.webm"
+          type="video/webm"
+        />
+      </video>
     </div>
     <h3
       className="small-movie-card__title"

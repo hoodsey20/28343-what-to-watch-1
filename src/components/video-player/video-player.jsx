@@ -41,23 +41,25 @@ export default class VideoPlayer extends React.PureComponent {
   componentDidMount() {
     const video = this._videoRef.current;
 
-    video.oncanplaythrough = () => this.setState({
-      isLoading: false,
-    });
-
-    video.onplay = () => {
-      this.setState({
-        isPlaying: true,
+    if (video) {
+      video.oncanplaythrough = () => this.setState({
+        isLoading: false,
       });
-    };
 
-    video.onpause = () => this.setState({
-      isPlaying: false,
-    });
+      video.onplay = () => {
+        this.setState({
+          isPlaying: true,
+        });
+      };
 
-    video.ontimeupdate = () => this.setState({
-      progress: video.currentTime
-    });
+      video.onpause = () => this.setState({
+        isPlaying: false,
+      });
+
+      video.ontimeupdate = () => this.setState({
+        progress: video.currentTime
+      });
+    }
   }
 
   componentDidUpdate() {
