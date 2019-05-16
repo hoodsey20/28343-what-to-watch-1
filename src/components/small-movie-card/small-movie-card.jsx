@@ -1,29 +1,29 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-const SmallMoovieCard = ({movie, onClick, onHover, onLeave}) => {
-  const {name, cover} = movie;
+import VideoPlayer from '../video-player/video-player.jsx';
+
+const SmallMoovieCard = ({movie, clickHandler, hoverHandler, leaveHandler, isPlaying}) => {
+  const {name, cover, src, id} = movie;
 
   return (
     <article
       className="small-movie-card catalog__movies-card"
-      onMouseEnter={() => onHover(movie)}
-      onMouseLeave={onLeave}
+      onMouseEnter={() => hoverHandler(id)}
+      onMouseLeave={leaveHandler}
     >
-      <button className="small-movie-card__play-btn" type="button">Play</button>
       <div className="small-movie-card__image">
-        <img
-          src={cover}
-          alt={name}
-          width="280"
-          height="175"
+        <VideoPlayer
+          cover={cover}
+          src={src}
+          isPlaying={isPlaying}
         />
       </div>
       <h3
         className="small-movie-card__title"
         onClick={(evt) => {
           evt.preventDefault();
-          onClick(movie);
+          clickHandler(movie);
         }}
       >
         <a className="small-movie-card__link" href="movie-page.html">{name}</a>
@@ -39,9 +39,10 @@ SmallMoovieCard.propTypes = {
     name: PropTypes.string,
     cover: PropTypes.string,
   }).isRequired,
-  onClick: PropTypes.func,
-  onHover: PropTypes.func,
-  onLeave: PropTypes.func,
+  isPlaying: PropTypes.bool.isRequired,
+  clickHandler: PropTypes.func,
+  hoverHandler: PropTypes.func,
+  leaveHandler: PropTypes.func,
 };
 
 export default SmallMoovieCard;

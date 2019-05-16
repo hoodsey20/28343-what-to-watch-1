@@ -10,17 +10,20 @@ const mock = {
   id: 1,
   name: `Fantastic Beasts: The Crimes of Grindelwald`,
   cover: ``,
+  src: [`https://download.blender.org/durian/trailer/sintel_trailer-480p.mp4`,
+    `https://upload.wikimedia.org/wikipedia/commons/transcoded/b/b3/Big_Buck_Bunny_Trailer_400p.ogv/Big_Buck_Bunny_Trailer_400p.ogv.360p.webm`]
 };
 
-it(`SmallMoovieCard click handler takes a movie card as argument`, () => {
-  const titleClickHandler = jest.fn((movie) => movie);
+it(`SmallMoovieCard mouseEnter calls callback`, () => {
+  const hoverHandler = jest.fn();
 
   const app = shallow(<SmallMoovieCard
     movie={mock}
-    onClick={titleClickHandler}
+    isPlaying={false}
+    hoverHandler={hoverHandler}
   />);
 
-  const cardTitle = app.find(`.small-movie-card__title`).first();
-  cardTitle.simulate(`click`, {preventDefault() {}});
-  expect(titleClickHandler.mock.calls[0][0]).toBe(mock);
+  const card = app.find(`.small-movie-card`);
+  card.simulate(`mouseEnter`);
+  expect(hoverHandler).toHaveBeenCalledTimes(1);
 });
