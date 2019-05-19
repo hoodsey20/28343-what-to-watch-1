@@ -1,12 +1,22 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
+import {createStore, applyMiddleware} from 'redux';
+import {Provider} from 'react-redux';
+import {logger} from 'redux-logger';
 
 import App from './components/app/app.jsx';
-import films from './mocks/films';
+import {reducer} from './reducer';
 
 function init() {
+  const store = createStore(
+      reducer,
+      applyMiddleware(logger)
+  );
+
   ReactDOM.render(
-      <App movies={films} />,
+      <Provider store={store}>
+        <App />
+      </Provider>,
       document.querySelector(`#root`)
   );
 }
