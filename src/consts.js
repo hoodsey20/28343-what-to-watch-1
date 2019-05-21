@@ -1,0 +1,4 @@
+export const reduxActionTypes = {
+  SET_FILTER_CATEGORY: `SET_FILTER_CATEGORY`,
+  GET_FILTERED_MOVIES: `GET_FILTERED_MOVIES`,
+};
