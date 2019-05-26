@@ -26,6 +26,15 @@ const mock = [
   },
 ];
 
+const mockGenres = [
+  null,
+  `Kids & Family`,
+  `Dramas`,
+  `Thrillers`,
+  `Comedies`,
+  `Crime`,
+];
+
 it(`App is rendered correctly`, () => {
   function createNodeMock() {
     return {};
@@ -35,6 +44,7 @@ it(`App is rendered correctly`, () => {
     filteredMovies={mock}
     category={null}
     handleGenreFilter={jest.fn()}
+    genres={mockGenres}
   />, {createNodeMock}).toJSON();
 
   expect(tree).toMatchSnapshot();

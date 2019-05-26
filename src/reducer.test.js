@@ -4,6 +4,7 @@ import {reduxActionTypes} from './consts';
 const {
   SET_FILTER_CATEGORY,
   GET_FILTERED_MOVIES,
+  GET_GENRES_LIST,
 } = reduxActionTypes;
 
 const mockMovies = [
@@ -65,7 +66,6 @@ it(`Reducer correctly sets filtering category`, () => {
   });
 });
 
-
 it(`Reducer correctly filters by category`, () => {
   const crimeMovies = reducer(
       reducer(mockState, {type: SET_FILTER_CATEGORY, payload: `Crime`}),
@@ -100,3 +100,16 @@ it(`Reducer correctly filters by category`, () => {
   expect(noSuchGenreMovies.length).toBe(0);
 });
 
+it(`Reducer correctly get list of genres`, () => {
+  const genres = reducer(mockState, {type: GET_GENRES_LIST}).genres;
+  expect(
+      genres
+  ).toStrictEqual([
+    null,
+    `Kids & Family`,
+    `Dramas`,
+    `Thrillers`,
+    `Comedies`,
+    `Crime`,
+  ]);
+});

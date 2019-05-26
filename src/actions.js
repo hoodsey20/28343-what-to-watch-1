@@ -3,6 +3,7 @@ import {reduxActionTypes} from './consts';
 const {
   SET_FILTER_CATEGORY,
   GET_FILTERED_MOVIES,
+  GET_GENRES_LIST,
 } = reduxActionTypes;
 
 export const ActionCreator = {
@@ -13,5 +14,9 @@ export const ActionCreator = {
 
   getFilteredMovies: () => ({
     type: GET_FILTERED_MOVIES
-  })
+  }),
+
+  getGenresList: () => ({
+    type: GET_GENRES_LIST
+  }),
 };
