@@ -1,7 +1,10 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
+import withVideo from '../../hocs/with-video/with-video';
 import SmallMoovieCard from '../small-movie-card/small-movie-card.jsx';
+
+const SmallMoovieCardWithVideo = withVideo(SmallMoovieCard);
 
 let timeoutID;
 const PLAY_DELAY = 1000;
@@ -33,7 +36,7 @@ export default class MoviesList extends React.Component {
 
     return (
       <div className="catalog__movies-list">
-        {movies.map((it) => <SmallMoovieCard
+        {movies.map((it) => <SmallMoovieCardWithVideo
           key={it.id}
           isPlaying={activeCard === it.id}
           movie={it}
