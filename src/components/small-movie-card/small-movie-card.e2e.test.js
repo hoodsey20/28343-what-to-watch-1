@@ -21,6 +21,7 @@ it(`SmallMoovieCard mouseEnter calls callback`, () => {
     movie={mock}
     isPlaying={false}
     hoverHandler={hoverHandler}
+    renderVideo={() => <div />}
   />);
 
   const card = app.find(`.small-movie-card`);

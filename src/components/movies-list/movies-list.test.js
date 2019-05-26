@@ -24,6 +24,8 @@ it(`MoviesList is rendered correctly`, () => {
   const tree = renderer.create(<MoviesList
     movies={mock}
     onClick={jest.fn()}
+    cardHoverHandler={jest.fn()}
+    cardLeaveHandler={jest.fn()}
   />).toJSON();
 
   expect(tree).toMatchSnapshot();
