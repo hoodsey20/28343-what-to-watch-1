@@ -19,6 +19,7 @@ it(`SmallMoovieCard card is rendered correctly`, () => {
     movie={mockMovie}
     onClick={jest.fn()}
     isPlaying={false}
+    renderVideo={() => <div />}
   />).toJSON();
 
   expect(tree).toMatchSnapshot();

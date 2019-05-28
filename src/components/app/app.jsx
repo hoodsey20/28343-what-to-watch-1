@@ -5,29 +5,21 @@ import {connect} from 'react-redux';
 import {ActionCreator} from '../../actions';
 import Main from '../main/main.jsx';
 
-class App extends React.Component {
-  _getGenresList() {
-    const {movies} = this.props;
-    const genres = new Set().add(null);
-    movies.forEach((movie) => {
-      movie.genres.forEach((genre) => genres.add(genre));
-    });
-    return Array.from(genres);
-  }
-
-  render() {
-    const {filteredMovies, category, handleGenreFilter} = this.props;
-
-    return (
-      <Main
-        movies={filteredMovies}
-        category={category}
-        handleGenreFilter={handleGenreFilter}
-        genres={this._getGenresList()}
-      />
-    );
-  }
-}
+const App = ({
+  filteredMovies,
+  category,
+  handleGenreFilter,
+  genres,
+}) => {
+  return (
+    <Main
+      movies={filteredMovies}
+      category={category}
+      handleGenreFilter={handleGenreFilter}
+      genres={genres}
+    />
+  );
+};
 
 App.propTypes = {
   filteredMovies: PropTypes.arrayOf(
@@ -44,6 +36,7 @@ App.propTypes = {
         cover: PropTypes.string.isRequired,
       })
   ).isRequired,
+  genres: PropTypes.arrayOf(PropTypes.string),
   category: PropTypes.string,
   handleGenreFilter: PropTypes.func.isRequired,
 };
@@ -51,6 +44,7 @@ App.propTypes = {
 export {App};
 
 const mapStateToProps = (state) => ({
+  genres: state.genres,
   category: state.category,
   movies: state.movies,
   filteredMovies: state.filteredMovies,

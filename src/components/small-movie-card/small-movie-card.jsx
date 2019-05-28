@@ -1,10 +1,14 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-import VideoPlayer from '../video-player/video-player.jsx';
-
-const SmallMoovieCard = ({movie, clickHandler, hoverHandler, leaveHandler, isPlaying}) => {
-  const {name, cover, src, id} = movie;
+const SmallMoovieCard = ({
+  movie,
+  clickHandler,
+  hoverHandler,
+  leaveHandler,
+  renderVideo,
+}) => {
+  const {name, id} = movie;
 
   return (
     <article
@@ -13,11 +17,7 @@ const SmallMoovieCard = ({movie, clickHandler, hoverHandler, leaveHandler, isPla
       onMouseLeave={leaveHandler}
     >
       <div className="small-movie-card__image">
-        <VideoPlayer
-          cover={cover}
-          src={src}
-          isPlaying={isPlaying}
-        />
+        {renderVideo()}
       </div>
       <h3
         className="small-movie-card__title"
@@ -39,10 +39,10 @@ SmallMoovieCard.propTypes = {
     name: PropTypes.string,
     cover: PropTypes.string,
   }).isRequired,
-  isPlaying: PropTypes.bool.isRequired,
   clickHandler: PropTypes.func,
   hoverHandler: PropTypes.func,
   leaveHandler: PropTypes.func,
+  renderVideo: PropTypes.func.isRequired,
 };
 
 export default SmallMoovieCard;
