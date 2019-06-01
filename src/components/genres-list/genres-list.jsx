@@ -5,7 +5,6 @@ import {connect} from 'react-redux';
 import {ActionCreator} from '../../reducer/movies/actions';
 import {genresSelector, categorySelector} from '../../reducer/movies/selectors';
 
-
 const DEFAULT_GENRE_NAME = `All genres`;
 
 export const GenresList = ({genres, category, handleGenreFilter}) => {
@@ -47,7 +46,6 @@ const mapStateToProps = (state) => ({
 const mapDispatchToProps = (dispatch) => ({
   handleGenreFilter: (categoryName) => {
     dispatch(ActionCreator.setFilter(categoryName));
-    dispatch(ActionCreator.getFilteredMovies());
   }
 });
 

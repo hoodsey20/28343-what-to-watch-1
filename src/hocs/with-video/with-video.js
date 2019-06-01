@@ -92,7 +92,8 @@ const withVideo = (Component) => {
     movie: PropTypes.shape({
       id: PropTypes.number,
       name: PropTypes.string,
-      cover: PropTypes.string,
+      preview_image: PropTypes.string,
+      preview_video_link: PropTypes.string,
     }).isRequired,
   };
 
