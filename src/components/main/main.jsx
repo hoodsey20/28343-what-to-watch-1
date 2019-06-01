@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 import MovieList from '../movies-list/movies-list.jsx';
 import GenresList from '../genres-list/genres-list.jsx';
 
-const Main = ({movies, category, handleGenreFilter, genres}) => {
+const Main = () => {
   return (
     <React.Fragment>
       <div className="visually-hidden">
@@ -92,15 +92,8 @@ const Main = ({movies, category, handleGenreFilter, genres}) => {
         <section className="catalog">
           <h2 className="catalog__title visually-hidden">Catalog</h2>
 
-          <GenresList
-            category={category}
-            handleGenreFilter={handleGenreFilter}
-            genres={genres}
-          />
-
-          <MovieList
-            movies={movies}
-          />
+          <GenresList />
+          <MovieList />
 
           <div className="catalog__more">
             <button className="catalog__button" type="button">Show more</button>
@@ -123,21 +116,6 @@ const Main = ({movies, category, handleGenreFilter, genres}) => {
       </div>
     </React.Fragment>
   );
-};
-
-Main.propTypes = {
-  movies: PropTypes.arrayOf(
-      PropTypes.shape({
-        id: PropTypes.number.isRequired,
-        name: PropTypes.string.isRequired,
-        cover: PropTypes.string.isRequired,
-      })
-  ).isRequired,
-  category: PropTypes.string,
-  handleGenreFilter: PropTypes.func.isRequired,
-  genres: PropTypes.arrayOf(
-      PropTypes.string
-  ).isRequired,
 };
 
 export default Main;

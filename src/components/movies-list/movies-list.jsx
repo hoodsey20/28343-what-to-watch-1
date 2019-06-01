@@ -1,5 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import {connect} from 'react-redux';
 
 import SmallMoovieCard from '../small-movie-card/small-movie-card.jsx';
 import withActivePlayer from '../../hocs/with-active-player/with-active-player';
@@ -28,14 +29,19 @@ export const MoviesList = ({
   );
 }
 
-export default withActivePlayer(MoviesList);
+const mapStateToProps = (state) => ({
+  movies: state.filteredMovies,
+});
+
+export default connect(mapStateToProps)(
+  withActivePlayer(MoviesList)
+);
 
 MoviesList.propTypes = {
   movies: PropTypes.arrayOf(
       PropTypes.shape({
         id: PropTypes.number.isRequired,
         name: PropTypes.string.isRequired,
-        cover: PropTypes.string.isRequired,
       })
   ).isRequired,
   activeCard: PropTypes.number,

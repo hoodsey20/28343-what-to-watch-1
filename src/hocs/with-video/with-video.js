@@ -18,7 +18,7 @@ const withVideo = (Component) => {
     render() {
       const {isPlaying} = this.state;
       const {movie} = this.props;
-      const {cover, src} = movie;
+      const {preview_image, preview_video_link} = movie;
 
       return (
         <Component
@@ -30,17 +30,10 @@ const withVideo = (Component) => {
               width="250"
               height="175"
               ref={this._videoRef}
-              poster={cover}
+              poster={preview_image}
+              src={preview_video_link}
               muted
-            >
-              {src.map((it, i) =>
-                <source
-                  src={it}
-                  type={`video/${this._getVideoFormat(it)}`}
-                  key={i}
-                />
-              )}
-            </video>
+            />
           )}
         />
       );
@@ -96,8 +89,6 @@ const withVideo = (Component) => {
 
   WithVideo.propTypes = {
     isPlaying: PropTypes.bool.isRequired,
-    cover: PropTypes.string,
-    src: PropTypes.arrayOf(PropTypes.string),
     movie: PropTypes.shape({
       id: PropTypes.number,
       name: PropTypes.string,

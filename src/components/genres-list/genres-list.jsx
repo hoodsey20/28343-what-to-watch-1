@@ -1,9 +1,12 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import {connect} from 'react-redux';
+
+import {ActionCreator} from '../../actions';
 
 const DEFAULT_GENRE_NAME = `All genres`;
 
-const GenresList = ({genres, category, handleGenreFilter}) => {
+export const GenresList = ({genres, category, handleGenreFilter}) => {
   return (
     <ul className="catalog__genres-list">
       {genres.map((it, i) => {
@@ -34,4 +37,17 @@ GenresList.propTypes = {
   handleGenreFilter: PropTypes.func.isRequired,
 };
 
-export default GenresList;
+const mapStateToProps = (state) => ({
+  genres: state.genres,
+  category: state.category,
+  movies: state.filteredMovies,
+});
+
+const mapDispatchToProps = (dispatch) => ({
+  handleGenreFilter: (categoryName) => {
+    dispatch(ActionCreator.setFilter(categoryName));
+    dispatch(ActionCreator.getFilteredMovies());
+  }
+});
+
+export default connect(mapStateToProps, mapDispatchToProps)(GenresList);
