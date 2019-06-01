@@ -1,7 +1,7 @@
 import React from 'react';
 import renderer from 'react-test-renderer';
 
-import SmallMoovieCard from './small-movie-card.jsx';
+import {SmallMoovieCard} from './small-movie-card.jsx';
 
 const mockMovie = {
   id: 1,

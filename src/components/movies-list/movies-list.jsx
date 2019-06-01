@@ -1,12 +1,10 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-import withVideo from '../../hocs/with-video/with-video';
 import SmallMoovieCard from '../small-movie-card/small-movie-card.jsx';
+import withActivePlayer from '../../hocs/with-active-player/with-active-player';
 
-const SmallMoovieCardWithVideo = withVideo(SmallMoovieCard);
-
-const MoviesList = ({
+export const MoviesList = ({
   movies,
   cardHoverHandler,
   cardLeaveHandler,
@@ -14,7 +12,7 @@ const MoviesList = ({
 }) => {
   return (
     <div className="catalog__movies-list">
-      {movies.map((it) => <SmallMoovieCardWithVideo
+      {movies.map((it) => <SmallMoovieCard
         key={it.id}
         isPlaying={activeCard === it.id}
         movie={it}
@@ -30,7 +28,7 @@ const MoviesList = ({
   );
 }
 
-export default MoviesList;
+export default withActivePlayer(MoviesList);
 
 MoviesList.propTypes = {
   movies: PropTypes.arrayOf(

@@ -3,9 +3,6 @@ import PropTypes from 'prop-types';
 
 import MovieList from '../movies-list/movies-list.jsx';
 import GenresList from '../genres-list/genres-list.jsx';
-import withActivePlayer from '../../hocs/with-active-player/with-active-player';
-
-const MovieListWithActivePlayer = withActivePlayer(MovieList);
 
 const Main = ({movies, category, handleGenreFilter, genres}) => {
   return (
@@ -101,7 +98,7 @@ const Main = ({movies, category, handleGenreFilter, genres}) => {
             genres={genres}
           />
 
-          <MovieListWithActivePlayer
+          <MovieList
             movies={movies}
           />
 

@@ -1,7 +1,9 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-const SmallMoovieCard = ({
+import withVideo from '../../hocs/with-video/with-video';
+
+export const SmallMoovieCard = ({
   movie,
   clickHandler,
   hoverHandler,
@@ -45,4 +47,4 @@ SmallMoovieCard.propTypes = {
   renderVideo: PropTypes.func.isRequired,
 };
 
-export default SmallMoovieCard;
+export default withVideo(SmallMoovieCard);
