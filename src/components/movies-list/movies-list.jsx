@@ -2,6 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import {connect} from 'react-redux';
 
+import {filteredMoviesSelector} from '../../reducer/movies/selectors';
 import SmallMoovieCard from '../small-movie-card/small-movie-card.jsx';
 import withActivePlayer from '../../hocs/with-active-player/with-active-player';
 
@@ -30,7 +31,7 @@ export const MoviesList = ({
 }
 
 const mapStateToProps = (state) => ({
-  movies: state.filteredMovies,
+  movies: filteredMoviesSelector(state),
 });
 
 export default connect(mapStateToProps)(

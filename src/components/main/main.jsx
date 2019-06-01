@@ -1,5 +1,4 @@
 import React from 'react';
-import PropTypes from 'prop-types';
 
 import MovieList from '../movies-list/movies-list.jsx';
 import GenresList from '../genres-list/genres-list.jsx';

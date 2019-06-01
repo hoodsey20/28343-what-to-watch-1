@@ -6,9 +6,9 @@ import {logger} from 'redux-logger';
 import thunk from "redux-thunk";
 
 import {App} from './components/app/app.jsx';
-import {reducer} from './reducer';
+import reducer from './reducer/index';
 import {createAPI} from './api';
-import {Operation} from './actions';
+import {Operation} from './reducer/movies/actions';
 
 function init() {
   const api = createAPI((...args) => store.dispatch(...args));

@@ -1,11 +1,11 @@
 import {reducer} from './reducer';
-import {reduxActionTypes} from './consts';
+import {actionTypes} from './actionTypes';
 
 const {
   SET_FILTER_CATEGORY,
   GET_FILTERED_MOVIES,
   GET_GENRES_LIST,
-} = reduxActionTypes;
+} = actionTypes;
 
 const mockMovies = [
   {

@@ -2,7 +2,9 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import {connect} from 'react-redux';
 
-import {ActionCreator} from '../../actions';
+import {ActionCreator} from '../../reducer/movies/actions';
+import {genresSelector, categorySelector} from '../../reducer/movies/selectors';
+
 
 const DEFAULT_GENRE_NAME = `All genres`;
 
@@ -38,9 +40,8 @@ GenresList.propTypes = {
 };
 
 const mapStateToProps = (state) => ({
-  genres: state.genres,
-  category: state.category,
-  movies: state.filteredMovies,
+  genres: genresSelector(state),
+  category: categorySelector(state),
 });
 
 const mapDispatchToProps = (dispatch) => ({
