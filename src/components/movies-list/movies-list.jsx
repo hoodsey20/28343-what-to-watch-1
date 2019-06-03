@@ -1,12 +1,12 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import {connect} from 'react-redux';
 
-import withVideo from '../../hocs/with-video/with-video';
+import {filteredMoviesSelector} from '../../reducer/movies/selectors';
 import SmallMoovieCard from '../small-movie-card/small-movie-card.jsx';
+import withActivePlayer from '../../hocs/with-active-player/with-active-player';
 
-const SmallMoovieCardWithVideo = withVideo(SmallMoovieCard);
-
-const MoviesList = ({
+export const MoviesList = ({
   movies,
   cardHoverHandler,
   cardLeaveHandler,
@@ -14,7 +14,7 @@ const MoviesList = ({
 }) => {
   return (
     <div className="catalog__movies-list">
-      {movies.map((it) => <SmallMoovieCardWithVideo
+      {movies.map((it) => <SmallMoovieCard
         key={it.id}
         isPlaying={activeCard === it.id}
         movie={it}
@@ -30,14 +30,19 @@ const MoviesList = ({
   );
 }
 
-export default MoviesList;
+const mapStateToProps = (state) => ({
+  movies: filteredMoviesSelector(state),
+});
+
+export default connect(mapStateToProps)(
+  withActivePlayer(MoviesList)
+);
 
 MoviesList.propTypes = {
   movies: PropTypes.arrayOf(
       PropTypes.shape({
         id: PropTypes.number.isRequired,
         name: PropTypes.string.isRequired,
-        cover: PropTypes.string.isRequired,
       })
   ).isRequired,
   activeCard: PropTypes.number,
