@@ -6,9 +6,6 @@ env:
 
 extends: ['htmlacademy/es6', 'plugin:react/recommended']
 
-rules:
-  camelcase: "off"
-
 parserOptions:
   ecmaFeatures:
     jsx: true

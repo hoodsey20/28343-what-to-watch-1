@@ -39,8 +39,8 @@ SmallMoovieCard.propTypes = {
   movie: PropTypes.shape({
     id: PropTypes.number,
     name: PropTypes.string,
-    preview_image: PropTypes.string,
-    preview_video_link: PropTypes.string,
+    previewImage: PropTypes.string,
+    previewVideoLink: PropTypes.string,
   }).isRequired,
   clickHandler: PropTypes.func,
   hoverHandler: PropTypes.func,
