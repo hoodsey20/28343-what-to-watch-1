@@ -1,9 +1,17 @@
 import React from 'react';
+import {connect} from 'react-redux';
+import PropTypes from 'prop-types';
 
 import MovieList from '../movies-list/movies-list.jsx';
 import GenresList from '../genres-list/genres-list.jsx';
+import SignIn from '../sign-in/sign-in.jsx';
+import {authReqSelector, userDataSelector} from '../../reducer/user/selectors';
+import {Operation, ActionCreator} from '../../reducer/user/actions';
 
-const Main = () => {
+const Main = ({isAuthorizationRequired, user, makeAuth, setAuthRequired}) => {
+  if (isAuthorizationRequired && !user) {
+    return <SignIn requestHandler={makeAuth} />;
+  }
   return (
     <React.Fragment>
       <div className="visually-hidden">
@@ -49,9 +57,15 @@ const Main = () => {
           </div>
 
           <div className="user-block">
-            <div className="user-block__avatar">
-              <img src="img/avatar.jpg" alt="User avatar" width="63" height="63" />
-            </div>
+            {user ? (
+              <div className="user-block__avatar">
+                <img src={`https://es31-server.appspot.com${user.avatarUrl}`} alt="User avatar" width="63" height="63" />
+              </div>
+            ) : (
+              <div className="user-block">
+                <a onClick={() => setAuthRequired(true)} href="#" className="user-block__link">Sign in</a>
+              </div>
+            )}
           </div>
         </header>
 
@@ -117,4 +131,31 @@ const Main = () => {
   );
 };
 
-export default Main;
+
+const mapStateToProps = (state) => ({
+  isAuthorizationRequired: authReqSelector(state),
+  user: userDataSelector(state),
+});
+
+const mapDispatchToProps = (dispatch) => ({
+  makeAuth: (userData) => {
+    dispatch(Operation.getUserData(userData));
+  },
+  setAuthRequired: (status) => {
+    dispatch(ActionCreator.requireAuthorization(status));
+  }
+});
+
+Main.propTypes = {
+  isAuthorizationRequired: PropTypes.bool.isRequired,
+  user: PropTypes.shape({
+    id: PropTypes.number,
+    email: PropTypes.string,
+    name: PropTypes.string,
+    avatarUrl: PropTypes.string,
+  }),
+  makeAuth: PropTypes.func,
+  setAuthRequired: PropTypes.func,
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(Main);

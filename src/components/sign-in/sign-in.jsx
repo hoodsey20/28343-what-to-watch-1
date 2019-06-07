@@ -1,17 +1,19 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-export const SignIn = () => {
+import withAuth from '../../hocs/with-auth/with-auth';
+
+export const SignIn = ({formSubmitHandler, inputHandler}) => {
   return (
     <div className="sign-in user-page__content">
-      <form action="#" className="sign-in__form">
+      <form action="#" className="sign-in__form" onSubmit={formSubmitHandler}>
         <div className="sign-in__fields">
           <div className="sign-in__field">
-            <input className="sign-in__input" type="email" placeholder="Email address" name="user-email" id="user-email" />
+            <input onChange={inputHandler} className="sign-in__input" type="email" placeholder="Email address" name="email" id="user-email" />
             <label className="sign-in__label visually-hidden" htmlFor="user-email">Email address</label>
           </div>
           <div className="sign-in__field">
-            <input className="sign-in__input" type="password" placeholder="Password" name="user-password" id="user-password" />
+            <input onChange={inputHandler} className="sign-in__input" type="password" placeholder="Password" name="password" id="user-password" />
             <label className="sign-in__label visually-hidden" htmlFor="user-password">Password</label>
           </div>
         </div>
@@ -24,6 +26,8 @@ export const SignIn = () => {
 };
 
 SignIn.propTypes = {
+  formSubmitHandler: PropTypes.func.isRequired,
+  inputHandler: PropTypes.func.isRequired,
 };
 
-export default SignIn;
+export default withAuth(SignIn);
