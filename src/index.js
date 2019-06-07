@@ -5,8 +5,8 @@ import {Provider} from 'react-redux';
 import {logger} from 'redux-logger';
 import thunk from "redux-thunk";
 
-import {App} from './components/app/app.jsx';
-import reducer from './reducer/index';
+import App from './components/app/app.jsx';
+import reducer from './reducer/reducer';
 import {createAPI} from './api';
 import {Operation} from './reducer/movies/actions';
 

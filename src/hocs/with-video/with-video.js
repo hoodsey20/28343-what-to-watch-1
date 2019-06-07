@@ -18,7 +18,7 @@ const withVideo = (Component) => {
     render() {
       const {isPlaying} = this.state;
       const {movie} = this.props;
-      const {preview_image, preview_video_link} = movie;
+      const {previewImage, previewVideoLink} = movie;
 
       return (
         <Component
@@ -30,8 +30,8 @@ const withVideo = (Component) => {
               width="250"
               height="175"
               ref={this._videoRef}
-              poster={preview_image}
-              src={preview_video_link}
+              poster={previewImage}
+              src={previewVideoLink}
               muted
             />
           )}
@@ -92,8 +92,8 @@ const withVideo = (Component) => {
     movie: PropTypes.shape({
       id: PropTypes.number,
       name: PropTypes.string,
-      preview_image: PropTypes.string,
-      preview_video_link: PropTypes.string,
+      previewImage: PropTypes.string,
+      previewVideoLink: PropTypes.string,
     }).isRequired,
   };
 

@@ -1,9 +1,11 @@
 import {createSelector} from 'reselect';
+import changeCaseObject from 'change-case-object';
+
 import NameSpace from '../name-spaces';
 
 const NAME_SPACE = NameSpace.MOVIES;
 
-const moviesSelector = (state) => state[NAME_SPACE].movies;
+const moviesSelector = (state) => moviesAdapter(state[NAME_SPACE].movies);
 export const categorySelector = (state) => state[NAME_SPACE].category;
 
 export const genresSelector = createSelector(
@@ -24,3 +26,7 @@ export const filteredMoviesSelector = createSelector(
       ? movies.filter((it) => it.genre === category)
       : movies
 );
+
+function moviesAdapter(movies) {
+  return movies.map((item) => changeCaseObject.camelCase(item))
+}

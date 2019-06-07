@@ -70,7 +70,7 @@ it(`Selector correctly filters by category`, () => {
       filteredMoviesSelector(
           createStateWithCategory(null)
       )
-  ).toBe(mockMovies);
+  ).toStrictEqual(mockMovies);
 
   expect(
       filteredMoviesSelector(
