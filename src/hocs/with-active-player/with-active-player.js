@@ -26,6 +26,10 @@ const withActivePlayer = (Component) => {
       this.setState({activeCard: null});
     }
 
+    componentWillUnmount() {
+      clearTimeout(timeoutID);
+    }
+
     render() {
       const {activeCard} = this.state;
       return (

@@ -7,6 +7,7 @@ const NAME_SPACE = NameSpace.MOVIES;
 
 const moviesSelector = (state) => moviesAdapter(state[NAME_SPACE].movies);
 export const categorySelector = (state) => state[NAME_SPACE].category;
+const idSelector = (state, id) => id;
 
 export const genresSelector = createSelector(
     moviesSelector,
@@ -27,6 +28,15 @@ export const filteredMoviesSelector = createSelector(
       : movies
 );
 
+export const movieByIdSelector = createSelector(
+    idSelector,
+    moviesSelector,
+    (id, movies) => {
+      const filtered = movies.filter((it) => it.id === id);
+      return filtered[0] ? filtered[0] : null;
+    }
+);
+
 function moviesAdapter(movies) {
-  return movies.map((item) => changeCaseObject.camelCase(item))
+  return movies.map((item) => changeCaseObject.camelCase(item));
 }

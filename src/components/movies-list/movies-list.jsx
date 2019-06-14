@@ -11,6 +11,7 @@ export const MoviesList = ({
   cardHoverHandler,
   cardLeaveHandler,
   activeCard,
+  history,
 }) => {
   return (
     <div className="catalog__movies-list">
@@ -21,21 +22,19 @@ export const MoviesList = ({
         hoverHandler={cardHoverHandler}
         leaveHandler={cardLeaveHandler}
         clickHandler={(movie) => {
-          /*eslint-disable*/
-          console.log(`фильм: `, movie)
-          /*eslint-disable*/
+          history.push(`/film/${movie.id}`);
         }}
       />)}
     </div>
   );
-}
+};
 
 const mapStateToProps = (state) => ({
   movies: filteredMoviesSelector(state),
 });
 
 export default connect(mapStateToProps)(
-  withActivePlayer(MoviesList)
+    withActivePlayer(MoviesList)
 );
 
 MoviesList.propTypes = {
@@ -48,4 +47,7 @@ MoviesList.propTypes = {
   activeCard: PropTypes.number,
   cardHoverHandler: PropTypes.func.isRequired,
   cardLeaveHandler: PropTypes.func.isRequired,
+  history: PropTypes.shape({
+    push: PropTypes.func
+  }),
 };
