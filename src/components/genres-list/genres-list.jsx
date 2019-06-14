@@ -19,7 +19,7 @@ export const GenresList = ({genres, category, handleGenreFilter}) => {
             <a
               href="#"
               className="catalog__genres-link"
-              onClick={() => handleGenreFilter(it)}
+              onClick={(evt) => handleGenreFilter(evt, it)}
             >
               {genreName}
             </a>
@@ -44,7 +44,8 @@ const mapStateToProps = (state) => ({
 });
 
 const mapDispatchToProps = (dispatch) => ({
-  handleGenreFilter: (categoryName) => {
+  handleGenreFilter: (evt, categoryName) => {
+    evt.preventDefault();
     dispatch(ActionCreator.setFilter(categoryName));
   }
 });

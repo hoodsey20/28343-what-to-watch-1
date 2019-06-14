@@ -1,27 +1,35 @@
-import actionTypes from './actionTypes';
+import ActionTypes from './action-types';
 
 const {
-  REQUIRED_AUTHORIZATION,
   SET_USER_DATA,
-} = actionTypes;
+  SET_USER_ERROR,
+} = ActionTypes;
 
 export const ActionCreator = {
-  requireAuthorization: (status) => ({
-    type: REQUIRED_AUTHORIZATION,
-    payload: status,
-  }),
-
   setUserData: (data) => ({
     type: SET_USER_DATA,
+    payload: data,
+  }),
+  setUserError: (data) => ({
+    type: SET_USER_ERROR,
     payload: data,
   }),
 };
 
 export const Operation = {
   getUserData: (authData) => (dispatch, _getState, api) => {
+    dispatch(ActionCreator.setUserError(null));
     return api.post(`/login`, authData)
       .then((response) => {
-        dispatch(ActionCreator.setUserData(response.data));
+        if (response.data) {
+          dispatch(ActionCreator.setUserData(response.data));
+        } else {
+          dispatch(ActionCreator.setUserError(
+              response.message
+                ? response.message
+                : `Unexpected error`
+          ));
+        }
       });
   },
 };

@@ -1,9 +1,9 @@
-import actionTypes from './actionTypes';
+import ActionTypes from './action-types';
 
 const {
   SET_FILTER_CATEGORY,
   LOAD_MOVIES,
-} = actionTypes;
+} = ActionTypes;
 
 const initialState = {
   category: null,

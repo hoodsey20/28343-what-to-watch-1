@@ -1,25 +1,24 @@
-import actionTypes from './actionTypes';
+import ActionTypes from './action-types';
 
 const {
-  REQUIRED_AUTHORIZATION,
   SET_USER_DATA,
-} = actionTypes;
+  SET_USER_ERROR,
+} = ActionTypes;
 
 const initialState = {
-  isAuthorizationRequired: false,
+  error: null,
   user: null,
 };
 
 export const reducer = (state = initialState, action) => {
   switch (action.type) {
-    case REQUIRED_AUTHORIZATION:
-      return Object.assign({}, state, {
-        isAuthorizationRequired: action.payload,
-      });
-
     case SET_USER_DATA:
       return Object.assign({}, state, {
         user: action.payload,
+      });
+    case SET_USER_ERROR:
+      return Object.assign({}, state, {
+        error: action.payload,
       });
   }
 

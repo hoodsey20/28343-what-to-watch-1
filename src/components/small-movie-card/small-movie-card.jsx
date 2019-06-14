@@ -18,7 +18,7 @@ export const SmallMoovieCard = ({
       onMouseEnter={() => hoverHandler(id)}
       onMouseLeave={leaveHandler}
     >
-      <div className="small-movie-card__image">
+      <div className="small-movie-card__image" onClick={() => clickHandler(movie)}>
         {renderVideo()}
       </div>
       <h3
