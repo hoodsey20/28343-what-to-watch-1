@@ -4,14 +4,15 @@ import PropTypes from 'prop-types';
 
 import MovieList from '../movies-list/movies-list.jsx';
 import GenresList from '../genres-list/genres-list.jsx';
-import SignIn from '../sign-in/sign-in.jsx';
-import {authReqSelector, userDataSelector} from '../../reducer/user/selectors';
-import {Operation, ActionCreator} from '../../reducer/user/actions';
+import {userDataSelector} from '../../reducer/user/selectors';
 
-const Main = ({isAuthorizationRequired, user, makeAuth, setAuthRequired}) => {
-  if (isAuthorizationRequired && !user) {
-    return <SignIn requestHandler={makeAuth} />;
+const Main = ({user, history}) => {
+
+  function signInHandler(evt) {
+    evt.preventDefault();
+    history.push(`/login`);
   }
+
   return (
     <React.Fragment>
       <div className="visually-hidden">
@@ -63,7 +64,7 @@ const Main = ({isAuthorizationRequired, user, makeAuth, setAuthRequired}) => {
               </div>
             ) : (
               <div className="user-block">
-                <a onClick={() => setAuthRequired(true)} href="#" className="user-block__link">Sign in</a>
+                <a onClick={signInHandler} href="#" className="user-block__link">Sign in</a>
               </div>
             )}
           </div>
@@ -131,31 +132,20 @@ const Main = ({isAuthorizationRequired, user, makeAuth, setAuthRequired}) => {
   );
 };
 
-
 const mapStateToProps = (state) => ({
-  isAuthorizationRequired: authReqSelector(state),
   user: userDataSelector(state),
 });
 
-const mapDispatchToProps = (dispatch) => ({
-  makeAuth: (userData) => {
-    dispatch(Operation.getUserData(userData));
-  },
-  setAuthRequired: (status) => {
-    dispatch(ActionCreator.requireAuthorization(status));
-  }
-});
-
 Main.propTypes = {
-  isAuthorizationRequired: PropTypes.bool.isRequired,
   user: PropTypes.shape({
     id: PropTypes.number,
     email: PropTypes.string,
     name: PropTypes.string,
     avatarUrl: PropTypes.string,
   }),
-  makeAuth: PropTypes.func,
-  setAuthRequired: PropTypes.func,
+  history: PropTypes.shape({
+    push: PropTypes.func
+  })
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(Main);
+export default connect(mapStateToProps)(Main);

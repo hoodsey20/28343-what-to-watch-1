@@ -1,8 +1,7 @@
 import React from 'react';
-import PropTypes from 'prop-types';
 
-const withAuth = (Component) => {
-  class WithAuth extends React.PureComponent {
+const withFormHandler = (Component) => {
+  class WithFormHandler extends React.PureComponent {
     constructor(props) {
       super(props);
 
@@ -13,8 +12,7 @@ const withAuth = (Component) => {
 
     _formSubmitHandler(evt) {
       evt.preventDefault();
-      const {requestHandler} = this.props;
-      requestHandler(this.state);
+      return this.state;
     }
 
     _inputHandler(evt) {
@@ -33,11 +31,7 @@ const withAuth = (Component) => {
     }
   }
 
-  WithAuth.propTypes = {
-    requestHandler: PropTypes.func,
-  };
-
-  return WithAuth;
+  return WithFormHandler;
 };
 
-export default withAuth;
+export default withFormHandler;
