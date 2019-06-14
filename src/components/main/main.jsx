@@ -107,7 +107,7 @@ const Main = ({user, history}) => {
           <h2 className="catalog__title visually-hidden">Catalog</h2>
 
           <GenresList />
-          <MovieList />
+          <MovieList history={history} />
 
           <div className="catalog__more">
             <button className="catalog__button" type="button">Show more</button>
