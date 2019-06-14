@@ -2,7 +2,7 @@ import MockAdapter from 'axios-mock-adapter';
 import {createAPI} from '../../api';
 
 import {Operation} from './actions';
-import actionTypes from './actionTypes';
+import ActionTypes from './action-types';
 
 
 describe(`Fetching films data works correctly`, () => {
@@ -20,7 +20,7 @@ describe(`Fetching films data works correctly`, () => {
       .then(() => {
         expect(dispatch).toHaveBeenCalledTimes(1);
         expect(dispatch).toHaveBeenNthCalledWith(1, {
-          type: actionTypes.LOAD_MOVIES,
+          type: ActionTypes.LOAD_MOVIES,
           payload: [{fake: true}],
         });
       });

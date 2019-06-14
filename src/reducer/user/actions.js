@@ -1,9 +1,9 @@
-import actionTypes from './actionTypes';
+import ActionTypes from './action-types';
 
 const {
   REQUIRED_AUTHORIZATION,
   SET_USER_DATA,
-} = actionTypes;
+} = ActionTypes;
 
 export const ActionCreator = {
   requireAuthorization: (status) => ({
