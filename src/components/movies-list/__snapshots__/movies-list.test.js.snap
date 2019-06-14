@@ -11,6 +11,7 @@ exports[`MoviesList is rendered correctly 1`] = `
   >
     <div
       className="small-movie-card__image"
+      onClick={[Function]}
     >
       <video
         height="175"
@@ -38,6 +39,7 @@ exports[`MoviesList is rendered correctly 1`] = `
   >
     <div
       className="small-movie-card__image"
+      onClick={[Function]}
     >
       <video
         height="175"
