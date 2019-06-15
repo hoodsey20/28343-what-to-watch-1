@@ -3,12 +3,9 @@ import PropTypes from 'prop-types';
 import {connect} from 'react-redux';
 
 import {movieByIdSelector} from '../../reducer/movies/selectors';
+import DetailTabs from '../detail-tabs/detail-tabs.jsx';
 
-function getFormattedTime(time) {
-  return `${Math.floor(time / 60)}h ${time % 60}m`;
-}
-
-export const MovieDetail = ({movie}) => {
+export const MovieDetail = ({movie, match}) => {
   if (!movie) {
     return null;
   }
@@ -18,13 +15,11 @@ export const MovieDetail = ({movie}) => {
     genre,
     backgroundImage,
     posterImage,
-    director,
-    runTime,
-    starring,
+    backgroundColor,
   } = movie;
   return (
     <React.Fragment>
-      <section className="movie-card movie-card--full">
+      <section className="movie-card movie-card--full" style={{backgroundColor}}>
         <div className="movie-card__hero">
           <div className="movie-card__bg">
             <img src={backgroundImage} alt={name} />
@@ -81,57 +76,9 @@ export const MovieDetail = ({movie}) => {
               <img src={posterImage} alt={name} width="218" height="327" />
             </div>
 
-            <div className="movie-card__desc">
-              <nav className="movie-nav movie-card__nav">
-                <ul className="movie-nav__list">
-                  <li className="movie-nav__item">
-                    <a href="#" className="movie-nav__link">Overview</a>
-                  </li>
-                  <li className="movie-nav__item movie-nav__item--active">
-                    <a href="#" className="movie-nav__link">Details</a>
-                  </li>
-                  <li className="movie-nav__item">
-                    <a href="#" className="movie-nav__link">Reviews</a>
-                  </li>
-                </ul>
-              </nav>
-
-              <div className="movie-card__text movie-card__row">
-                <div className="movie-card__text-col">
-                  <p className="movie-card__details-item">
-                    <strong className="movie-card__details-name">Director</strong>
-                    <span className="movie-card__details-value">{director}</span>
-                  </p>
-                  <p className="movie-card__details-item">
-                    <strong className="movie-card__details-name">Starring</strong>
-                    <span className="movie-card__details-value">
-                      {starring.map((it, i) => (
-                        <span key={i}>
-                          {it}
-                          <br />
-                        </span>
-                      ))}
-
-                    </span>
-                  </p>
-                </div>
-
-                <div className="movie-card__text-col">
-                  <p className="movie-card__details-item">
-                    <strong className="movie-card__details-name">Run Time</strong>
-                    <span className="movie-card__details-value">{getFormattedTime(runTime)}</span>
-                  </p>
-                  <p className="movie-card__details-item">
-                    <strong className="movie-card__details-name">Genre</strong>
-                    <span className="movie-card__details-value">{genre}</span>
-                  </p>
-                  <p className="movie-card__details-item">
-                    <strong className="movie-card__details-name">Released</strong>
-                    <span className="movie-card__details-value">{released}</span>
-                  </p>
-                </div>
-              </div>
-            </div>
+            {match &&
+              <DetailTabs movie={movie} movieId={match.params.id} />
+            }
           </div>
         </div>
       </section>
@@ -217,12 +164,10 @@ MovieDetail.propTypes = {
     id: PropTypes.number.isRequired,
     name: PropTypes.string.isRequired,
     released: PropTypes.number,
-    runTime: PropTypes.number,
     genre: PropTypes.string,
     backgroundImage: PropTypes.string,
     posterImage: PropTypes.string,
-    director: PropTypes.string,
-    starring: PropTypes.arrayOf(PropTypes.string),
+    backgroundColor: PropTypes.string,
   }),
   match: PropTypes.shape({
     params: PropTypes.shape({
