@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import {connect} from 'react-redux';
 
-import {filteredMoviesSelector} from '../../reducer/movies/selectors';
+import {filteredMoviesSelector, filteredByGenreSelector} from '../../reducer/movies/selectors';
 import SmallMoovieCard from '../small-movie-card/small-movie-card.jsx';
 import withActivePlayer from '../../hocs/with-active-player/with-active-player';
 
@@ -29,11 +29,18 @@ export const MoviesList = ({
   );
 };
 
-const mapStateToProps = (state) => ({
-  movies: filteredMoviesSelector(state),
-});
+const makeMapStateToProps = () => {
+  const mapStateToProps = (state, props) => {
+    if (props.genreLike) {
+      return {movies: filteredByGenreSelector(state, props.genreLike)};
+    } else {
+      return {movies: filteredMoviesSelector(state)};
+    }
+  };
+  return mapStateToProps;
+};
 
-export default connect(mapStateToProps)(
+export default connect(makeMapStateToProps)(
     withActivePlayer(MoviesList)
 );
 
@@ -44,6 +51,7 @@ MoviesList.propTypes = {
         name: PropTypes.string.isRequired,
       })
   ).isRequired,
+  genreLike: PropTypes.string,
   activeCard: PropTypes.number,
   cardHoverHandler: PropTypes.func.isRequired,
   cardLeaveHandler: PropTypes.func.isRequired,

@@ -1,13 +1,15 @@
 import {createSelector} from 'reselect';
-import changeCaseObject from 'change-case-object';
+import camelcaseKeys from 'camelcase-keys';
 
 import NameSpace from '../name-spaces';
 
 const NAME_SPACE = NameSpace.MOVIES;
 
 const moviesSelector = (state) => moviesAdapter(state[NAME_SPACE].movies);
+const moviesReviews = (state) => state[NAME_SPACE].reviews;
 export const categorySelector = (state) => state[NAME_SPACE].category;
 const idSelector = (state, id) => id;
+const genreSelector = (state, genre) => genre;
 
 export const genresSelector = createSelector(
     moviesSelector,
@@ -28,6 +30,14 @@ export const filteredMoviesSelector = createSelector(
       : movies
 );
 
+export const filteredByGenreSelector = createSelector(
+    moviesSelector,
+    genreSelector,
+    (movies, genre) => genre
+      ? movies.filter((it) => it.genre === genre).slice(0, 4)
+      : []
+);
+
 export const movieByIdSelector = createSelector(
     idSelector,
     moviesSelector,
@@ -37,6 +47,15 @@ export const movieByIdSelector = createSelector(
     }
 );
 
+export const reviewByIdSelector = createSelector(
+    idSelector,
+    moviesReviews,
+    (id, reviews) => {
+      const filtered = reviews[id];
+      return filtered ? filtered : null;
+    }
+);
+
 function moviesAdapter(movies) {
-  return movies.map((item) => changeCaseObject.camelCase(item));
+  return movies.map((item) => camelcaseKeys(item));
 }
