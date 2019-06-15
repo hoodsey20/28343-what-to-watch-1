@@ -4,8 +4,9 @@ import {connect} from 'react-redux';
 
 import {movieByIdSelector} from '../../reducer/movies/selectors';
 import DetailTabs from '../detail-tabs/detail-tabs.jsx';
+import MoviesList from '../movies-list/movies-list.jsx';
 
-export const MovieDetail = ({movie, match}) => {
+export const MovieDetail = ({movie, match, history}) => {
   if (!movie) {
     return null;
   }
@@ -84,52 +85,13 @@ export const MovieDetail = ({movie, match}) => {
       </section>
 
       <div className="page-content">
-        <section className="catalog catalog--like-this">
-          <h2 className="catalog__title">More like this</h2>
+        {(match && genre) &&
+          <section className="catalog catalog--like-this">
+            <h2 className="catalog__title">More like this</h2>
 
-          <div className="catalog__movies-list">
-            <article className="small-movie-card catalog__movies-card">
-              <button className="small-movie-card__play-btn" type="button">Play</button>
-              <div className="small-movie-card__image">
-                <img src="/img/fantastic-beasts-the-crimes-of-grindelwald.jpg" alt="Fantastic Beasts: The Crimes of Grindelwald" width="280" height="175" />
-              </div>
-              <h3 className="small-movie-card__title">
-                <a className="small-movie-card__link" href="movie-page.html">Fantastic Beasts: The Crimes of Grindelwald</a>
-              </h3>
-            </article>
-
-            <article className="small-movie-card catalog__movies-card">
-              <button className="small-movie-card__play-btn" type="button">Play</button>
-              <div className="small-movie-card__image">
-                <img src="/img/bohemian-rhapsody.jpg" alt="Bohemian Rhapsody" width="280" height="175" />
-              </div>
-              <h3 className="small-movie-card__title">
-                <a className="small-movie-card__link" href="movie-page.html">Bohemian Rhapsody</a>
-              </h3>
-            </article>
-
-            <article className="small-movie-card catalog__movies-card">
-              <button className="small-movie-card__play-btn" type="button">Play</button>
-              <div className="small-movie-card__image">
-                <img src="/img/macbeth.jpg" alt="Macbeth" width="280" height="175" />
-              </div>
-              <h3 className="small-movie-card__title">
-                <a className="small-movie-card__link" href="movie-page.html">Macbeth</a>
-              </h3>
-            </article>
-
-            <article className="small-movie-card catalog__movies-card">
-              <button className="small-movie-card__play-btn" type="button">Play</button>
-              <div className="small-movie-card__image">
-                <img src="/img/aviator.jpg" alt="Aviator" width="280" height="175" />
-              </div>
-              <h3 className="small-movie-card__title">
-                <a className="small-movie-card__link" href="movie-page.html">Aviator</a>
-              </h3>
-            </article>
-          </div>
-        </section>
-
+            <MoviesList genreLike={genre} history={history} />
+          </section>
+        }
         <footer className="page-footer">
           <div className="logo">
             <a href="main.html" className="logo__link logo__link--light">
@@ -173,5 +135,8 @@ MovieDetail.propTypes = {
     params: PropTypes.shape({
       id: PropTypes.string.isRequired,
     })
-  })
+  }),
+  history: PropTypes.shape({
+    push: PropTypes.func
+  }),
 };
