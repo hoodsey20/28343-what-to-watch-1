@@ -5,6 +5,7 @@ import {connect} from 'react-redux';
 import {filteredMoviesSelector, filteredByGenreSelector} from '../../reducer/movies/selectors';
 import SmallMoovieCard from '../small-movie-card/small-movie-card.jsx';
 import withActivePlayer from '../../hocs/with-active-player/with-active-player';
+import withShowMore from '../../hocs/with-show-more/with-show-more';
 
 export const MoviesList = ({
   movies,
@@ -41,7 +42,9 @@ const makeMapStateToProps = () => {
 };
 
 export default connect(makeMapStateToProps)(
-    withActivePlayer(MoviesList)
+    withActivePlayer(
+        withShowMore(MoviesList)
+    )
 );
 
 MoviesList.propTypes = {
