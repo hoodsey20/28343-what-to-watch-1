@@ -5,8 +5,9 @@ import PropTypes from 'prop-types';
 import MoviesList from '../movies-list/movies-list.jsx';
 import GenresList from '../genres-list/genres-list.jsx';
 import {userDataSelector} from '../../reducer/user/selectors';
+import withPlayerController from '../../hocs/with-player-controller/with-player-controller';
 
-const Main = ({user, history}) => {
+const Main = ({user, history, playerVisibleHandler}) => {
 
   function signInHandler(evt) {
     evt.preventDefault();
@@ -84,7 +85,7 @@ const Main = ({user, history}) => {
               </p>
 
               <div className="movie-card__buttons">
-                <button className="btn btn--play movie-card__button" type="button">
+                <button onClick={playerVisibleHandler} className="btn btn--play movie-card__button" type="button">
                   <svg viewBox="0 0 19 19" width="19" height="19">
                     <use xlinkHref="#play-s"></use>
                   </svg>
@@ -140,7 +141,10 @@ Main.propTypes = {
   }),
   history: PropTypes.shape({
     push: PropTypes.func
-  })
+  }),
+  playerVisibleHandler: PropTypes.func,
 };
 
-export default connect(mapStateToProps)(Main);
+export default connect(mapStateToProps)(
+    withPlayerController(Main)
+);
