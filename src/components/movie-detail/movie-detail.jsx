@@ -56,7 +56,10 @@ export const MovieDetail = ({movie, match, history, playerVisibleHandler}) => {
 
           <header className="page-header movie-card__head">
             <div className="logo">
-              <a href="main.html" className="logo__link">
+              <a href="#" className="logo__link" onClick={(evt) => {
+                evt.preventDefault();
+                history.push(`/`);
+              }}>
                 <span className="logo__letter logo__letter--1">W</span>
                 <span className="logo__letter logo__letter--2">T</span>
                 <span className="logo__letter logo__letter--3">W</span>
@@ -115,12 +118,15 @@ export const MovieDetail = ({movie, match, history, playerVisibleHandler}) => {
           <section className="catalog catalog--like-this">
             <h2 className="catalog__title">More like this</h2>
 
-            <MoviesList genreLike={genre} history={history} />
+            <MoviesList genreLike={genre} history={history} movieId={match.params.id} />
           </section>
         }
         <footer className="page-footer">
           <div className="logo">
-            <a href="main.html" className="logo__link logo__link--light">
+            <a href="#" className="logo__link logo__link--light" onClick={(evt) => {
+              evt.preventDefault();
+              history.push(`/`);
+            }}>
               <span className="logo__letter logo__letter--1">W</span>
               <span className="logo__letter logo__letter--2">T</span>
               <span className="logo__letter logo__letter--3">W</span>
