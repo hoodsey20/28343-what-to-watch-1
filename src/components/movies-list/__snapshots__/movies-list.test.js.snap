@@ -14,10 +14,11 @@ exports[`MoviesList is rendered correctly 1`] = `
       onClick={[Function]}
     >
       <video
+        className=""
         height="175"
         muted={true}
         poster="img/fantastic-beasts-the-crimes-of-grindelwald.jpg"
-        width="250"
+        width="280"
       />
     </div>
     <h3
@@ -42,10 +43,11 @@ exports[`MoviesList is rendered correctly 1`] = `
       onClick={[Function]}
     >
       <video
+        className=""
         height="175"
         muted={true}
         poster="img/bohemian-rhapsody.jpg"
-        width="250"
+        width="280"
       />
     </div>
     <h3

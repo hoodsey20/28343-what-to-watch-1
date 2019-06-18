@@ -10,29 +10,32 @@ const withVideo = (Component) => {
 
       this.state = {
         progress: 0,
+        duration: 0,
         isLoading: true,
         isPlaying: props.isPlaying,
       };
     }
 
     render() {
-      const {isPlaying} = this.state;
+      const {isPlaying, progress, duration} = this.state;
       const {movie} = this.props;
       const {previewImage, previewVideoLink} = movie;
 
       return (
         <Component
           {...this.props}
+          progress={progress}
+          duration={duration}
           isPlaying={isPlaying}
-          playButtonClickHandler={this._playButtonClickHandler}
-          renderVideo={() => (
+          renderVideo={(additionalClass) => (
             <video
-              width="250"
+              width="280"
               height="175"
               ref={this._videoRef}
               poster={previewImage}
               src={previewVideoLink}
               muted
+              className={additionalClass ? additionalClass : ``}
             />
           )}
         />
@@ -57,17 +60,25 @@ const withVideo = (Component) => {
           isPlaying: false,
         });
 
-        video.ontimeupdate = () => this.setState({
-          progress: Math.ceil(video.currentTime)
-        });
+        video.ontimeupdate = () =>
+          this.setState({
+            duration: Math.ceil(video.duration),
+            progress: Math.ceil(video.currentTime)
+          });
       }
     }
 
     componentDidUpdate() {
+      const {isPlaying, isPlayerMode} = this.props;
       const video = this._videoRef.current;
 
-      if (this.props.isPlaying) {
+      if (isPlaying) {
         video.play();
+        return;
+      }
+
+      if (isPlayerMode) {
+        video.pause();
       } else {
         video.load();
       }
@@ -88,7 +99,8 @@ const withVideo = (Component) => {
   }
 
   WithVideo.propTypes = {
-    isPlaying: PropTypes.bool.isRequired,
+    isPlaying: PropTypes.bool,
+    isPlayerMode: PropTypes.bool,
     movie: PropTypes.shape({
       id: PropTypes.number,
       name: PropTypes.string,

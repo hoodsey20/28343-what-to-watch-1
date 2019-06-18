@@ -4,12 +4,14 @@ const {
   SET_FILTER_CATEGORY,
   LOAD_MOVIES,
   LOAD_REVIEWS,
+  LOAD_PROMO,
 } = ActionTypes;
 
 const initialState = {
   category: null,
   movies: [],
   reviews: {},
+  promo: null,
 };
 
 function updateReviews(reviews, newData, id) {
@@ -34,6 +36,11 @@ export const reducer = (state = initialState, action) => {
     case LOAD_REVIEWS:
       return Object.assign({}, state, {
         reviews: updateReviews(state.reviews, action.payload.data, action.payload.movieId),
+      });
+
+    case LOAD_PROMO:
+      return Object.assign({}, state, {
+        promo: action.payload,
       });
   }
 

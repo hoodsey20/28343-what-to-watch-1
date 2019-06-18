@@ -5,11 +5,18 @@ import NameSpace from '../name-spaces';
 
 const NAME_SPACE = NameSpace.MOVIES;
 
+export const promoSelector = (state) => {
+  const data = state[NAME_SPACE].promo;
+  if (data) {
+    return camelcaseKeys(data);
+  }
+  return data;
+};
 const moviesSelector = (state) => moviesAdapter(state[NAME_SPACE].movies);
 const moviesReviews = (state) => state[NAME_SPACE].reviews;
 export const categorySelector = (state) => state[NAME_SPACE].category;
 const idSelector = (state, id) => id;
-const genreSelector = (state, genre) => genre;
+const genreSelector = (state, id, genre) => genre;
 
 export const genresSelector = createSelector(
     moviesSelector,
@@ -30,12 +37,15 @@ export const filteredMoviesSelector = createSelector(
       : movies
 );
 
-export const filteredByGenreSelector = createSelector(
+export const similarMoviesSelectore = createSelector(
     moviesSelector,
     genreSelector,
-    (movies, genre) => genre
-      ? movies.filter((it) => it.genre === genre).slice(0, 4)
-      : []
+    idSelector,
+    (movies, genre, id) => {
+      return genre
+        ? movies.filter((it) => it.genre === genre && it.id !== id).slice(0, 4)
+        : [];
+    }
 );
 
 export const movieByIdSelector = createSelector(

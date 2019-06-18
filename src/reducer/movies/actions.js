@@ -4,6 +4,7 @@ const {
   SET_FILTER_CATEGORY,
   LOAD_MOVIES,
   LOAD_REVIEWS,
+  LOAD_PROMO,
 } = ActionTypes;
 
 export const ActionCreator = {
@@ -21,6 +22,11 @@ export const ActionCreator = {
     type: LOAD_REVIEWS,
     payload: {movieId, data},
   }),
+
+  loadPromo: (data) => ({
+    type: LOAD_PROMO,
+    payload: data,
+  }),
 };
 
 export const Operation = {
@@ -34,9 +40,15 @@ export const Operation = {
     return api.get(`/comments/${movieId}`)
       .then((response) => {
         dispatch(ActionCreator.loadReviews(
-          movieId,
-          response.data
+            movieId,
+            response.data
         ));
+      });
+  },
+  loadPromo: () => (dispatch, _getState, api) => {
+    return api.get(`/films/promo`)
+      .then((response) => {
+        dispatch(ActionCreator.loadPromo(response.data));
       });
   },
 };

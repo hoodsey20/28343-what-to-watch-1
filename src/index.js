@@ -23,6 +23,7 @@ function init() {
   ));
 
   store.dispatch(Operation.loadMovies());
+  store.dispatch(Operation.loadPromo());
 
   ReactDOM.render(
       <Provider store={store}>

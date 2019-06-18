@@ -5,13 +5,24 @@ import PropTypes from 'prop-types';
 import MoviesList from '../movies-list/movies-list.jsx';
 import GenresList from '../genres-list/genres-list.jsx';
 import {userDataSelector} from '../../reducer/user/selectors';
+import {promoSelector} from '../../reducer/movies/selectors';
+import withPlayerController from '../../hocs/with-player-controller/with-player-controller';
 
-const Main = ({user, history}) => {
-
+const Main = ({user, history, playerVisibleHandler, movie}) => {
   function signInHandler(evt) {
     evt.preventDefault();
     history.push(`/login`);
   }
+  if (!movie) {
+    return null;
+  }
+  const {
+    name,
+    released,
+    genre,
+    backgroundImage,
+    posterImage,
+  } = movie;
 
   return (
     <React.Fragment>
@@ -43,7 +54,7 @@ const Main = ({user, history}) => {
 
       <section className="movie-card">
         <div className="movie-card__bg">
-          <img src="img/bg-the-grand-budapest-hotel.jpg" alt="The Grand Budapest Hotel" />
+          <img src={backgroundImage} alt={name} />
         </div>
 
         <h1 className="visually-hidden">WTW</h1>
@@ -73,18 +84,18 @@ const Main = ({user, history}) => {
         <div className="movie-card__wrap">
           <div className="movie-card__info">
             <div className="movie-card__poster">
-              <img src="img/the-grand-budapest-hotel-poster.jpg" alt="The Grand Budapest Hotel poster" width="218" height="327" />
+              <img src={posterImage} alt={`${name} poster`} width="218" height="327" />
             </div>
 
             <div className="movie-card__desc">
-              <h2 className="movie-card__title">The Grand Budapest Hotel</h2>
+              <h2 className="movie-card__title">{name}</h2>
               <p className="movie-card__meta">
-                <span className="movie-card__genre">Drama</span>
-                <span className="movie-card__year">2014</span>
+                <span className="movie-card__genre">{genre}</span>
+                <span className="movie-card__year">{released}</span>
               </p>
 
               <div className="movie-card__buttons">
-                <button className="btn btn--play movie-card__button" type="button">
+                <button onClick={playerVisibleHandler} className="btn btn--play movie-card__button" type="button">
                   <svg viewBox="0 0 19 19" width="19" height="19">
                     <use xlinkHref="#play-s"></use>
                   </svg>
@@ -129,6 +140,7 @@ const Main = ({user, history}) => {
 
 const mapStateToProps = (state) => ({
   user: userDataSelector(state),
+  movie: promoSelector(state),
 });
 
 Main.propTypes = {
@@ -140,7 +152,18 @@ Main.propTypes = {
   }),
   history: PropTypes.shape({
     push: PropTypes.func
-  })
+  }),
+  playerVisibleHandler: PropTypes.func,
+  movie: PropTypes.shape({
+    id: PropTypes.number.isRequired,
+    name: PropTypes.string.isRequired,
+    released: PropTypes.number,
+    genre: PropTypes.string,
+    backgroundImage: PropTypes.string,
+    posterImage: PropTypes.string,
+  }),
 };
 
-export default connect(mapStateToProps)(Main);
+export default connect(mapStateToProps)(
+    withPlayerController(Main)
+);
