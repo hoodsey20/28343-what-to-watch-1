@@ -7,6 +7,7 @@ const {
   LOAD_PROMO,
   ADD_REVIEW,
   ADD_REVIEW_ERROR,
+  SET_FAVORITE_STATUS,
 } = ActionTypes;
 
 export const ActionCreator = {
@@ -38,7 +39,12 @@ export const ActionCreator = {
   addReview: (movieId, data) => ({
     type: ADD_REVIEW,
     payload: {movieId, data},
-  })
+  }),
+
+  setFavoriteStatus: (movieId, data) => ({
+    type: SET_FAVORITE_STATUS,
+    payload: {movieId, data}
+  }),
 };
 
 export const Operation = {
@@ -81,4 +87,13 @@ export const Operation = {
         }
       });
   },
+  sendNewFavoriteStatus: (movieId, status) => (dispatch, _getState, api) => {
+    return api.post(`/favorite/${movieId}/${status}`)
+      .then((response) => {
+        dispatch(ActionCreator.setFavoriteStatus(
+            movieId,
+            response.data
+        ));
+      });
+  }
 };
