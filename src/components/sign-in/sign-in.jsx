@@ -12,12 +12,16 @@ export const SignIn = ({
   inputHandler,
   makeAuth,
   error,
+  history,
 }) => {
   return (
     <div className="user-page">
       <header className="page-header user-page__head">
         <div className="logo">
-          <a href="main.html" className="logo__link">
+          <a href="#" className="logo__link" onClick={(evt) => {
+            evt.preventDefault();
+            history.push(`/`);
+          }}>
             <span className="logo__letter logo__letter--1">W</span>
             <span className="logo__letter logo__letter--2">T</span>
             <span className="logo__letter logo__letter--3">W</span>
@@ -73,4 +77,7 @@ SignIn.propTypes = {
   inputHandler: PropTypes.func.isRequired,
   makeAuth: PropTypes.func.isRequired,
   error: PropTypes.string,
+  history: PropTypes.shape({
+    push: PropTypes.func
+  }),
 };

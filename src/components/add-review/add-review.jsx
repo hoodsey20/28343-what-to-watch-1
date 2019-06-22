@@ -1,19 +1,18 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import {connect} from 'react-redux';
+import {Link} from 'react-router-dom';
 
-import {userErrorSelector} from '../../reducer/user/selectors';
-import {Operation} from '../../reducer/user/actions';
 import withFormHandler from '../../hocs/with-form-handler/with-form-handler';
-import {movieByIdSelector} from '../../reducer/movies/selectors';
+import withReviewSendHandler from '../../hocs/with-review-send-handler/with-review-send-handler';
+import withOnlySigned from '../../hocs/with-only-signed/with-only-signed';
 
 export const AddReview = ({
-  formSubmitHandler,
   inputHandler,
-  makeAuth,
-  error,
+  formSubmitHandler,
   movie,
-  history,
+  isFormValid,
+  isFormSending,
+  error,
 }) => {
   if (!movie) {
     return null;
@@ -35,14 +34,11 @@ export const AddReview = ({
 
         <header className="page-header">
           <div className="logo">
-            <a href="#" className="logo__link" onClick={(evt) => {
-              evt.preventDefault();
-              history.push(`/`);
-            }}>
+            <Link to="/" className="logo__link">
               <span className="logo__letter logo__letter--1">W</span>
               <span className="logo__letter logo__letter--2">T</span>
               <span className="logo__letter logo__letter--3">W</span>
-            </a>
+            </Link>
           </div>
 
           <nav className="breadcrumbs">
@@ -70,34 +66,33 @@ export const AddReview = ({
 
       <div className="add-review">
         <form action="#" className="add-review__form" onSubmit={(evt) => {
-          formSubmitHandler(evt);
+          evt.preventDefault();
+          formSubmitHandler();
         }}>
           <div className="rating">
             <div className="rating__stars" onChange={inputHandler}>
-              <input className="rating__input" id="star-1" type="radio" name="rating" value="1"/>
-              <label className="rating__label" htmlFor="star-1">Rating 1</label>
 
-              <input className="rating__input" id="star-2" type="radio" name="rating" value="2" />
-              <label className="rating__label" htmlFor="star-2">Rating 2</label>
-
-              <input className="rating__input" id="star-3" type="radio" name="rating" value="3" />
-              <label className="rating__label" htmlFor="star-3">Rating 3</label>
-
-              <input className="rating__input" id="star-4" type="radio" name="rating" value="4" />
-              <label className="rating__label" htmlFor="star-4">Rating 4</label>
-
-              <input className="rating__input" id="star-5" type="radio" name="rating" value="5" />
-              <label className="rating__label" htmlFor="star-5">Rating 5</label>
+              {[`1`, `2`, `3`, `4`, `5`].map((it) => (
+                <React.Fragment key={it}>
+                  <input className="rating__input" id={`star-${it}`} type="radio" name="rating" value={it} />
+                  <label className="rating__label" htmlFor={`star-${it}`}>Rating {it}</label>
+                </React.Fragment>
+              ))}
             </div>
           </div>
 
           <div className="add-review__text">
-            <textarea onChange={inputHandler} className="add-review__textarea" name="review-text" id="review-text" placeholder="Review text"></textarea>
+            <textarea onChange={inputHandler} className="add-review__textarea" name="comment" id="review-text" placeholder="Review text"></textarea>
             <div className="add-review__submit">
-              <button className="add-review__btn" type="submit">Post</button>
+              <button
+                className="add-review__btn"
+                type="submit"
+                disabled={(!isFormValid || isFormSending)}
+              >Post</button>
             </div>
 
           </div>
+          {error && <h3>{`Error: ${error}`}</h3>}
         </form>
       </div>
 
@@ -105,33 +100,17 @@ export const AddReview = ({
   );
 };
 
-const makeMapStateToProps = () => {
-  const mapStateToProps = (state, props) => {
-    return {
-      movie: movieByIdSelector(state, Number(props.match.params.id)),
-      error: userErrorSelector(state),
-    };
-  };
-  return mapStateToProps;
-};
 
-const mapDispatchToProps = (dispatch) => ({
-  makeAuth: (userData) => {
-    dispatch(Operation.getUserData(userData));
-  },
-});
-
-export default connect(makeMapStateToProps, mapDispatchToProps)(
-    withFormHandler(AddReview)
+export default withOnlySigned(
+    withFormHandler(
+        withReviewSendHandler(AddReview)
+    )
 );
 
 AddReview.propTypes = {
-  formSubmitHandler: PropTypes.func.isRequired,
-  inputHandler: PropTypes.func.isRequired,
   error: PropTypes.string,
-  history: PropTypes.shape({
-    push: PropTypes.func
-  }),
+  inputHandler: PropTypes.func.isRequired,
+  formSubmitHandler: PropTypes.func.isRequired,
   match: PropTypes.shape({
     params: PropTypes.shape({
       id: PropTypes.string.isRequired,
@@ -143,4 +122,6 @@ AddReview.propTypes = {
     backgroundImage: PropTypes.string,
     posterImage: PropTypes.string,
   }),
+  isFormValid: PropTypes.bool.isRequired,
+  isFormSending: PropTypes.bool.isRequired,
 };
