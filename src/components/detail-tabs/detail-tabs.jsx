@@ -2,7 +2,6 @@ import React from 'react';
 import PropTypes from 'prop-types';
 
 import withActiveTab from '../../hocs/with-active-tab/with-active-tab';
-import withDetailData from '../../hocs/with-detail-data/with-detail-data';
 
 function getRatingName(rating) {
   if (rating < 3) {
@@ -149,9 +148,7 @@ export const DetailTabs = ({
   );
 };
 
-export default withActiveTab(
-    withDetailData(DetailTabs)
-);
+export default withActiveTab(DetailTabs);
 
 DetailTabs.propTypes = {
   activeTab: PropTypes.number.isRequired,

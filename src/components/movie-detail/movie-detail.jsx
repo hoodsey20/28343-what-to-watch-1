@@ -1,13 +1,20 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import {connect} from 'react-redux';
 
-import {movieByIdSelector} from '../../reducer/movies/selectors';
 import DetailTabs from '../detail-tabs/detail-tabs.jsx';
 import MoviesList from '../movies-list/movies-list.jsx';
 import withPlayerController from '../../hocs/with-player-controller/with-player-controller';
+import withDetailData from '../../hocs/with-detail-data/with-detail-data';
 
-export const MovieDetail = ({movie, match, history, playerVisibleHandler}) => {
+export const MovieDetail = ({
+  movie,
+  match,
+  history,
+  tabs,
+  reviews,
+  playerVisibleHandler,
+  setFavoriteStatusHandler,
+}) => {
   if (!movie) {
     return null;
   }
@@ -18,6 +25,7 @@ export const MovieDetail = ({movie, match, history, playerVisibleHandler}) => {
     backgroundImage,
     posterImage,
     backgroundColor,
+    isFavorite,
   } = movie;
   return (
     <React.Fragment>
@@ -88,12 +96,20 @@ export const MovieDetail = ({movie, match, history, playerVisibleHandler}) => {
                   </svg>
                   <span>Play</span>
                 </button>
-                <button className="btn btn--list movie-card__button" type="button">
-                  <svg viewBox="0 0 19 20" width="19" height="20">
-                    <use xlinkHref="#add" />
-                  </svg>
+
+                <button className="btn btn--list movie-card__button" type="button" onClick={setFavoriteStatusHandler}>
+                  {isFavorite ? (
+                    <svg viewBox="0 0 18 14" width="18" height="14">
+                      <use xlinkHref="#in-list"></use>
+                    </svg>
+                  ) : (
+                    <svg viewBox="0 0 19 20" width="19" height="20">
+                      <use xlinkHref="#add" />
+                    </svg>
+                  )}
                   <span>My list</span>
                 </button>
+
                 <a href="add-review.html" className="btn movie-card__button">Add review</a>
               </div>
             </div>
@@ -107,7 +123,11 @@ export const MovieDetail = ({movie, match, history, playerVisibleHandler}) => {
             </div>
 
             {match &&
-              <DetailTabs movie={movie} movieId={match.params.id} />
+              <DetailTabs
+                movie={movie}
+                tabs={tabs}
+                reviews={reviews}
+              />
             }
           </div>
         </div>
@@ -142,18 +162,8 @@ export const MovieDetail = ({movie, match, history, playerVisibleHandler}) => {
   );
 };
 
-const makeMapStateToProps = () => {
-  const mapStateToProps = (state, props) => {
-    return {
-      movie: movieByIdSelector(state, Number(props.match.params.id))
-    };
-  };
-  return mapStateToProps;
-};
 
-export default connect(makeMapStateToProps)(
-    withPlayerController(MovieDetail)
-);
+export default withDetailData(withPlayerController(MovieDetail));
 
 MovieDetail.propTypes = {
   movie: PropTypes.shape({
@@ -164,6 +174,7 @@ MovieDetail.propTypes = {
     backgroundImage: PropTypes.string,
     posterImage: PropTypes.string,
     backgroundColor: PropTypes.string,
+    isFavorite: PropTypes.bool.isRequired,
   }),
   match: PropTypes.shape({
     params: PropTypes.shape({
@@ -174,4 +185,7 @@ MovieDetail.propTypes = {
     push: PropTypes.func
   }),
   playerVisibleHandler: PropTypes.func,
+  setFavoriteStatusHandler: PropTypes.func,
+  tabs: PropTypes.objectOf(PropTypes.string),
+  reviews: PropTypes.array,
 };

@@ -7,6 +7,7 @@ const {
   LOAD_PROMO,
   ADD_REVIEW,
   ADD_REVIEW_ERROR,
+  SET_FAVORITE_STATUS,
 } = ActionTypes;
 
 const initialState = {
@@ -22,6 +23,21 @@ function updateReviews(reviews, newData, id) {
     reviews[id] = newData;
   }
   return Object.assign({}, reviews);
+}
+
+function updateFavoriteStatus(movies, newData, id) {
+  let index;
+  movies.forEach((it, i) => {
+    if (it.id === Number(id)) {
+      index = i;
+    }
+  });
+
+  if (typeof index === `number`) {
+    movies[index] = newData;
+  }
+
+  return movies;
 }
 
 export const reducer = (state = initialState, action) => {
@@ -54,6 +70,11 @@ export const reducer = (state = initialState, action) => {
     case ADD_REVIEW_ERROR:
       return Object.assign({}, state, {
         addReviewError: action.payload,
+      });
+
+    case SET_FAVORITE_STATUS:
+      return Object.assign({}, state, {
+        movies: updateFavoriteStatus(state.movies, action.payload.data, action.payload.movieId)
       });
   }
 

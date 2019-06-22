@@ -5,6 +5,7 @@ const ActionTypes = {
   LOAD_REVIEWS: `LOAD_REVIEWS`,
   ADD_REVIEW: `ADD_REVIEW`,
   ADD_REVIEW_ERROR: `ADD_REVIEW_ERROR`,
+  SET_FAVORITE_STATUS: `SET_FAVORITE_STATUS`,
 };
 
 export default ActionTypes;
