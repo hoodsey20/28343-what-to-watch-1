@@ -17,6 +17,7 @@ const moviesReviews = (state) => state[NAME_SPACE].reviews;
 export const categorySelector = (state) => state[NAME_SPACE].category;
 const idSelector = (state, id) => id;
 const genreSelector = (state, id, genre) => genre;
+export const addReviewErrorSelector = (state) => state[NAME_SPACE].addReviewError;
 
 export const genresSelector = createSelector(
     moviesSelector,

@@ -12,20 +12,15 @@ const Tabs = {
   2: `Reviews`,
 };
 
-
 const withDetailData = (Component) => {
   class WithDetailData extends React.PureComponent {
     constructor(props) {
       super(props);
     }
 
-    componentDidUpdate(prevProps) {
-      const {activeTab, movieId, loadReview, reviews} = this.props;
-
-      if ((Tabs[activeTab] === `Reviews` && activeTab !== prevProps.activeTab) && !reviews) {
-        loadReview(movieId);
-      }
-
+    componentDidMount() {
+      const {movieId, loadReview} = this.props;
+      loadReview(movieId);
     }
 
     render() {
@@ -42,7 +37,6 @@ const withDetailData = (Component) => {
   }
 
   WithDetailData.propTypes = {
-    activeTab: PropTypes.number.isRequired,
     movieId: PropTypes.string.isRequired,
     loadReview: PropTypes.func,
     reviews: PropTypes.array,

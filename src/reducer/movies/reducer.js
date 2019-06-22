@@ -5,13 +5,16 @@ const {
   LOAD_MOVIES,
   LOAD_REVIEWS,
   LOAD_PROMO,
+  ADD_REVIEW,
+  ADD_REVIEW_ERROR,
 } = ActionTypes;
 
 const initialState = {
   category: null,
   movies: [],
-  reviews: {},
   promo: null,
+  reviews: {},
+  addReviewError: null,
 };
 
 function updateReviews(reviews, newData, id) {
@@ -41,6 +44,16 @@ export const reducer = (state = initialState, action) => {
     case LOAD_PROMO:
       return Object.assign({}, state, {
         promo: action.payload,
+      });
+
+    case ADD_REVIEW:
+      return Object.assign({}, state, {
+        reviews: updateReviews(state.reviews, action.payload.data, action.payload.movieId),
+      });
+
+    case ADD_REVIEW_ERROR:
+      return Object.assign({}, state, {
+        addReviewError: action.payload,
       });
   }
 

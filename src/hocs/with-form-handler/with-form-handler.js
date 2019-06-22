@@ -26,6 +26,7 @@ const withFormHandler = (Component) => {
           {...this.props}
           formSubmitHandler={this._formSubmitHandler}
           inputHandler={this._inputHandler}
+          state={this.state}
         />
       );
     }

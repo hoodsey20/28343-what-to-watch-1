@@ -25,11 +25,20 @@ export const Operation = {
           dispatch(ActionCreator.setUserData(response.data));
         } else {
           dispatch(ActionCreator.setUserError(
-              response.message
-                ? response.message
+              response
+                ? response
                 : `Unexpected error`
           ));
         }
+      });
+  },
+  getCurrentUser: () => (dispatch, _getState, api) => {
+    return api.get(`/login`)
+      .then((response) => {
+        if (response.data) {
+          dispatch(ActionCreator.setUserData(response.data));
+        }
+        return true;
       });
   },
 };

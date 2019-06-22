@@ -5,6 +5,8 @@ const {
   LOAD_MOVIES,
   LOAD_REVIEWS,
   LOAD_PROMO,
+  ADD_REVIEW,
+  ADD_REVIEW_ERROR,
 } = ActionTypes;
 
 export const ActionCreator = {
@@ -27,6 +29,16 @@ export const ActionCreator = {
     type: LOAD_PROMO,
     payload: data,
   }),
+
+  setAddReviewError: (data) => ({
+    type: ADD_REVIEW_ERROR,
+    payload: data,
+  }),
+
+  addReview: (movieId, data) => ({
+    type: ADD_REVIEW,
+    payload: {movieId, data},
+  })
 };
 
 export const Operation = {
@@ -34,6 +46,12 @@ export const Operation = {
     return api.get(`/films`)
       .then((response) => {
         dispatch(ActionCreator.loadMovies(response.data));
+      });
+  },
+  loadPromo: () => (dispatch, _getState, api) => {
+    return api.get(`/films/promo`)
+      .then((response) => {
+        dispatch(ActionCreator.loadPromo(response.data));
       });
   },
   loadReviews: (movieId) => (dispatch, _getState, api) => {
@@ -45,10 +63,22 @@ export const Operation = {
         ));
       });
   },
-  loadPromo: () => (dispatch, _getState, api) => {
-    return api.get(`/films/promo`)
+  sendReview: (movieId, data) => (dispatch, _getState, api) => {
+    ActionCreator.setAddReviewError(null);
+    return api.post(`/comments/${movieId}`, data)
       .then((response) => {
-        dispatch(ActionCreator.loadPromo(response.data));
+        if (response.data) {
+          dispatch(ActionCreator.addReview(
+              movieId,
+              response.data
+          ));
+        } else {
+          dispatch(ActionCreator.setAddReviewError(
+              response
+                ? response
+                : `Unexpected error`
+          ));
+        }
       });
   },
 };
