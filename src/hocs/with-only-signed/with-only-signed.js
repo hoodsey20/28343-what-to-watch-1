@@ -16,6 +16,7 @@ const withOnlySigned = (Component) => {
       return (
         <Component
           {...this.props}
+          user={user}
         />
       );
     }

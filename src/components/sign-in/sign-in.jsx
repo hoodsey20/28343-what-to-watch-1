@@ -2,6 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import {connect} from 'react-redux';
 
+import Logo from '../logo/logo.jsx';
 import {userErrorSelector} from '../../reducer/user/selectors';
 import {Operation} from '../../reducer/user/actions';
 import withFormHandler from '../../hocs/with-form-handler/with-form-handler';
@@ -17,17 +18,7 @@ export const SignIn = ({
   return (
     <div className="user-page">
       <header className="page-header user-page__head">
-        <div className="logo">
-          <a href="#" className="logo__link" onClick={(evt) => {
-            evt.preventDefault();
-            history.push(`/`);
-          }}>
-            <span className="logo__letter logo__letter--1">W</span>
-            <span className="logo__letter logo__letter--2">T</span>
-            <span className="logo__letter logo__letter--3">W</span>
-          </a>
-        </div>
-
+        <Logo history={history} />
         <h1 className="page-title user-page__title">Sign in</h1>
       </header>
       <div className="sign-in user-page__content">

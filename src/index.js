@@ -25,21 +25,21 @@ function init() {
       applyMiddleware(...middlewares)
   ));
 
-  store.dispatch(Operation.loadPromo());
-
   store.dispatch(UserOperation.getCurrentUser())
     .then(() => {
+
+      ReactDOM.render(
+          <BrowserRouter history={customHistory}>
+            <Provider store={store}>
+              <App />
+            </Provider>
+          </BrowserRouter>,
+          document.querySelector(`#root`)
+      );
+
+      store.dispatch(Operation.loadPromo());
       store.dispatch(Operation.loadMovies());
     });
-
-  ReactDOM.render(
-      <BrowserRouter history={customHistory}>
-        <Provider store={store}>
-          <App />
-        </Provider>
-      </BrowserRouter>,
-      document.querySelector(`#root`)
-  );
 }
 
 init();

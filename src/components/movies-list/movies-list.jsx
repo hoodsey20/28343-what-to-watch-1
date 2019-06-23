@@ -1,8 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import {connect} from 'react-redux';
 
-import {filteredMoviesSelector, similarMoviesSelectore} from '../../reducer/movies/selectors';
 import SmallMoovieCard from '../small-movie-card/small-movie-card.jsx';
 import withActivePlayer from '../../hocs/with-active-player/with-active-player';
 import withShowMore from '../../hocs/with-show-more/with-show-more';
@@ -30,21 +28,9 @@ export const MoviesList = ({
   );
 };
 
-const makeMapStateToProps = () => {
-  const mapStateToProps = (state, props) => {
-    if (props.genreLike) {
-      return {movies: similarMoviesSelectore(state, Number(props.movieId), props.genreLike)};
-    } else {
-      return {movies: filteredMoviesSelector(state)};
-    }
-  };
-  return mapStateToProps;
-};
 
-export default connect(makeMapStateToProps)(
-    withActivePlayer(
-        withShowMore(MoviesList)
-    )
+export default withActivePlayer(
+    withShowMore(MoviesList)
 );
 
 MoviesList.propTypes = {

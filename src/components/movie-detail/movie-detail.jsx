@@ -1,13 +1,21 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import {connect} from 'react-redux';
 
+import {userDataSelector} from '../../reducer/user/selectors';
+import {similarMoviesSelector} from '../../reducer/movies/selectors';
+
+import Logo from '../logo/logo.jsx';
+import UserBlock from '../user-block/user-block.jsx';
 import DetailTabs from '../detail-tabs/detail-tabs.jsx';
 import MoviesList from '../movies-list/movies-list.jsx';
 import withPlayerController from '../../hocs/with-player-controller/with-player-controller';
 import withDetailData from '../../hocs/with-detail-data/with-detail-data';
 
 export const MovieDetail = ({
+  user,
   movie,
+  movies,
   match,
   history,
   tabs,
@@ -63,22 +71,8 @@ export const MovieDetail = ({
           <h1 className="visually-hidden">WTW</h1>
 
           <header className="page-header movie-card__head">
-            <div className="logo">
-              <a href="#" className="logo__link" onClick={(evt) => {
-                evt.preventDefault();
-                history.push(`/`);
-              }}>
-                <span className="logo__letter logo__letter--1">W</span>
-                <span className="logo__letter logo__letter--2">T</span>
-                <span className="logo__letter logo__letter--3">W</span>
-              </a>
-            </div>
-
-            <div className="user-block">
-              <div className="user-block__avatar">
-                <img src="/img/avatar.jpg" alt="User avatar" width="63" height="63" />
-              </div>
-            </div>
+            <Logo history={history} />
+            <UserBlock history={history} user={user} />
           </header>
 
           <div className="movie-card__wrap">
@@ -98,7 +92,7 @@ export const MovieDetail = ({
                 </button>
 
                 <button className="btn btn--list movie-card__button" type="button" onClick={setFavoriteStatusHandler}>
-                  {isFavorite ? (
+                  {(isFavorite && user) ? (
                     <svg viewBox="0 0 18 14" width="18" height="14">
                       <use xlinkHref="#in-list"></use>
                     </svg>
@@ -110,7 +104,14 @@ export const MovieDetail = ({
                   <span>My list</span>
                 </button>
 
-                <a href="add-review.html" className="btn movie-card__button">Add review</a>
+                <a
+                  href="add-review.html"
+                  className="btn movie-card__button"
+                  onClick={(evt) => {
+                    evt.preventDefault();
+                    history.push(`/film/${match.params.id}/review`);
+                  }}
+                >Add review</a>
               </div>
             </div>
           </div>
@@ -138,7 +139,7 @@ export const MovieDetail = ({
           <section className="catalog catalog--like-this">
             <h2 className="catalog__title">More like this</h2>
 
-            <MoviesList genreLike={genre} history={history} movieId={match.params.id} />
+            <MoviesList history={history} movies={movies} />
           </section>
         }
         <footer className="page-footer">
@@ -162,10 +163,29 @@ export const MovieDetail = ({
   );
 };
 
+const makeMapStateToProps = () => {
+  const mapStateToProps = (state, props) => {
+    return {
+      movies: similarMoviesSelector(
+          state,
+          Number(props.match.params.id)
+      ),
+      user: userDataSelector(state),
+    };
+  };
 
-export default withDetailData(withPlayerController(MovieDetail));
+  return mapStateToProps;
+};
+
+export default connect(makeMapStateToProps)(
+    withDetailData(withPlayerController(MovieDetail))
+);
 
 MovieDetail.propTypes = {
+  user: PropTypes.shape({
+    avatarUrl: PropTypes.string,
+  }),
+  movies: PropTypes.array,
   movie: PropTypes.shape({
     id: PropTypes.number.isRequired,
     name: PropTypes.string.isRequired,

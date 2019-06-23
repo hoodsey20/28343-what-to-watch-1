@@ -2,17 +2,15 @@ import React from 'react';
 import {connect} from 'react-redux';
 import PropTypes from 'prop-types';
 
+import Logo from '../logo/logo.jsx';
+import UserBlock from '../user-block/user-block.jsx';
 import MoviesList from '../movies-list/movies-list.jsx';
 import GenresList from '../genres-list/genres-list.jsx';
 import {userDataSelector} from '../../reducer/user/selectors';
-import {promoSelector} from '../../reducer/movies/selectors';
+import {promoSelector, filteredMoviesSelector} from '../../reducer/movies/selectors';
 import withPlayerController from '../../hocs/with-player-controller/with-player-controller';
 
-const Main = ({user, history, playerVisibleHandler, movie}) => {
-  function signInHandler(evt) {
-    evt.preventDefault();
-    history.push(`/login`);
-  }
+const Main = ({user, history, playerVisibleHandler, movie, movies}) => {
   if (!movie) {
     return null;
   }
@@ -60,25 +58,8 @@ const Main = ({user, history, playerVisibleHandler, movie}) => {
         <h1 className="visually-hidden">WTW</h1>
 
         <header className="page-header movie-card__head">
-          <div className="logo">
-            <a className="logo__link">
-              <span className="logo__letter logo__letter--1">W</span>
-              <span className="logo__letter logo__letter--2">T</span>
-              <span className="logo__letter logo__letter--3">W</span>
-            </a>
-          </div>
-
-          <div className="user-block">
-            {user ? (
-              <div className="user-block__avatar">
-                <img src={`https://es31-server.appspot.com${user.avatarUrl}`} alt="User avatar" width="63" height="63" />
-              </div>
-            ) : (
-              <div className="user-block">
-                <a onClick={signInHandler} href="#" className="user-block__link">Sign in</a>
-              </div>
-            )}
-          </div>
+          <Logo history={history} />
+          <UserBlock history={history} user={user} />
         </header>
 
         <div className="movie-card__wrap">
@@ -117,17 +98,11 @@ const Main = ({user, history, playerVisibleHandler, movie}) => {
         <section className="catalog">
           <h2 className="catalog__title visually-hidden">Catalog</h2>
           <GenresList />
-          <MoviesList history={history} />
+          <MoviesList history={history} movies={movies} />
         </section>
 
         <footer className="page-footer">
-          <div className="logo">
-            <a className="logo__link logo__link--light">
-              <span className="logo__letter logo__letter--1">W</span>
-              <span className="logo__letter logo__letter--2">T</span>
-              <span className="logo__letter logo__letter--3">W</span>
-            </a>
-          </div>
+          <Logo history={history} linkClass="logo__link--light" />
 
           <div className="copyright">
             <p>© 2019 What to watch Ltd.</p>
@@ -141,9 +116,11 @@ const Main = ({user, history, playerVisibleHandler, movie}) => {
 const mapStateToProps = (state) => ({
   user: userDataSelector(state),
   movie: promoSelector(state),
+  movies: filteredMoviesSelector(state),
 });
 
 Main.propTypes = {
+  movies: PropTypes.array,
   user: PropTypes.shape({
     id: PropTypes.number,
     email: PropTypes.string,
