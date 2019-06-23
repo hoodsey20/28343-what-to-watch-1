@@ -59,12 +59,16 @@ const Main = ({
 
         <div className="movie-card__wrap">
           <div className="movie-card__info">
-            <div className="movie-card__poster">
+            <div className="movie-card__poster" onClick={() => {
+              history.push(`/film/${id}`);
+            }}>
               <img src={posterImage} alt={`${name} poster`} width="218" height="327" />
             </div>
 
             <div className="movie-card__desc">
-              <h2 className="movie-card__title">{name}</h2>
+              <h2 className="movie-card__title" onClick={() => {
+                history.push(`/film/${id}`);
+              }}>{name}</h2>
               <p className="movie-card__meta">
                 <span className="movie-card__genre">{genre}</span>
                 <span className="movie-card__year">{released}</span>
