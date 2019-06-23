@@ -27,8 +27,7 @@ const withDetailData = (Component) => {
 
     _setFavoriteStatusHandler() {
       const {setFavoriteStatus, match, movie} = this.props;
-      const newStatus = movie.isFavorite ? 0 : 1;
-      setFavoriteStatus(match.params.id, newStatus);
+      setFavoriteStatus(match.params.id, movie.isFavorite);
     }
 
     render() {

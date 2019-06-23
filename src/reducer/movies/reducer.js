@@ -18,6 +18,13 @@ const initialState = {
   addReviewError: null,
 };
 
+function updatePromo(promo, newData, id) {
+  if (promo && promo.id && promo.id === id) {
+    promo = newData;
+  }
+  return promo;
+}
+
 function updateReviews(reviews, newData, id) {
   if (newData.length) {
     reviews[id] = newData;
@@ -74,7 +81,8 @@ export const reducer = (state = initialState, action) => {
 
     case SET_FAVORITE_STATUS:
       return Object.assign({}, state, {
-        movies: updateFavoriteStatus(state.movies, action.payload.data, action.payload.movieId)
+        movies: updateFavoriteStatus(state.movies, action.payload.data, action.payload.movieId),
+        promo: updatePromo(state.promo, action.payload.data, action.payload.movieId)
       });
   }
 
