@@ -152,7 +152,7 @@ Main.propTypes = {
     push: PropTypes.func
   }),
   playerVisibleHandler: PropTypes.func,
-  mapDispatchToProps: PropTypes.func,
+  setFavoriteStatus: PropTypes.func,
   movie: PropTypes.shape({
     id: PropTypes.number.isRequired,
     name: PropTypes.string.isRequired,

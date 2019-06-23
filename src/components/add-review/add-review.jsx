@@ -100,7 +100,6 @@ export const AddReview = ({
   );
 };
 
-
 export default withOnlySigned(
     withFormHandler(
         withReviewSendHandler(AddReview)
@@ -109,8 +108,8 @@ export default withOnlySigned(
 
 AddReview.propTypes = {
   error: PropTypes.string,
-  inputHandler: PropTypes.func.isRequired,
-  formSubmitHandler: PropTypes.func.isRequired,
+  inputHandler: PropTypes.func,
+  formSubmitHandler: PropTypes.func,
   match: PropTypes.shape({
     params: PropTypes.shape({
       id: PropTypes.string.isRequired,

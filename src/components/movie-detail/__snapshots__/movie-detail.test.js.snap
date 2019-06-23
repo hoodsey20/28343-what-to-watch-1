@@ -151,7 +151,7 @@ Array [
           className="logo"
         >
           <a
-            className="logo__link"
+            className="logo__link "
             href="#"
             onClick={[Function]}
           >
@@ -175,16 +175,13 @@ Array [
         <div
           className="user-block"
         >
-          <div
-            className="user-block__avatar"
+          <a
+            className="user-block__link"
+            href="#"
+            onClick={[Function]}
           >
-            <img
-              alt="User avatar"
-              height="63"
-              src="/img/avatar.jpg"
-              width="63"
-            />
-          </div>
+            Sign in
+          </a>
         </div>
       </header>
       <div
@@ -252,6 +249,7 @@ Array [
             <a
               className="btn movie-card__button"
               href="add-review.html"
+              onClick={[Function]}
             >
               Add review
             </a>

@@ -26,7 +26,7 @@ export const MyList = ({
 
       <section className="catalog">
         <h2 className="catalog__title visually-hidden">Catalog</h2>
-        <MoviesList history={history} movies={movies} />
+        {movies && <MoviesList history={history} movies={movies} />}
       </section>
 
       <footer className="page-footer">
