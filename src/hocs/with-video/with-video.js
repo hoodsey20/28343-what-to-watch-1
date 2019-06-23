@@ -14,6 +14,8 @@ const withVideo = (Component) => {
         isLoading: true,
         isPlaying: props.isPlaying,
       };
+
+      this._setFullScreen = this._setFullScreen.bind(this);
     }
 
     render() {
@@ -27,6 +29,7 @@ const withVideo = (Component) => {
           progress={progress}
           duration={duration}
           isPlaying={isPlaying}
+          fullScreenHandler={this._setFullScreen}
           renderVideo={(additionalClass) => (
             <video
               width="280"
@@ -95,6 +98,14 @@ const withVideo = (Component) => {
 
     _getVideoFormat(name) {
       return name.split(`.`).pop();
+    }
+
+    _setFullScreen() {
+      const video = this._videoRef.current;
+
+      if (video.webkitEnterFullscreen) {
+        video.webkitEnterFullscreen();
+      }
     }
   }
 

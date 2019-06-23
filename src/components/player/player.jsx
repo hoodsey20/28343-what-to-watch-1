@@ -25,9 +25,8 @@ export const Player = ({
   duration,
   isPlaying,
   playStatusHandler,
-  screenModeToggleHandler,
+  fullScreenHandler,
   renderVideo,
-  isFullMode,
   playerVisibleHandler,
 }) => {
   const {name} = movie;
@@ -60,7 +59,7 @@ export const Player = ({
         </symbol></svg>
       </div>
 
-      <div className={`player ${isFullMode ? `player--mode-full` : `player--mode-basic`}`}>
+      <div className="player">
         {renderVideo(`player__video`)}
 
         <button type="button" className="player__exit" onClick={playerVisibleHandler}>Exit</button>
@@ -94,7 +93,7 @@ export const Player = ({
 
             <div className="player__name">{name}</div>
 
-            <button type="button" className="player__full-screen" onClick={screenModeToggleHandler}>
+            <button type="button" className="player__full-screen" onClick={fullScreenHandler}>
               <svg viewBox="0 0 27 27" width="27" height="27">
                 <use xlinkHref="#full-screen"></use>
               </svg>
@@ -116,9 +115,8 @@ Player.propTypes = {
   }).isRequired,
   renderVideo: PropTypes.func.isRequired,
   isPlaying: PropTypes.bool.isRequired,
-  isFullMode: PropTypes.bool,
   playStatusHandler: PropTypes.func,
-  screenModeToggleHandler: PropTypes.func,
+  fullScreenHandler: PropTypes.func,
   progress: PropTypes.number,
   duration: PropTypes.number,
   playerVisibleHandler: PropTypes.func,
