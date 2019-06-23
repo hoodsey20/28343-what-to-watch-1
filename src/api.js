@@ -7,14 +7,21 @@ export const createAPI = (onLoginFail) => {
     withCredentials: true,
   });
 
+  function isLoginRequest(err) {
+    return err.request.responseURL.split(`/`).pop() === `login`;
+  }
+
   const onSuccess = (response) => response;
   const onFail = (err) => {
     try {
       if (
         err.response.status === 403
-        && err.request.responseURL.split(`/`).pop() !== `login`
+        && !isLoginRequest(err)
       ) {
         onLoginFail();
+      } else if (err.response.status === 403
+        && isLoginRequest(err)) {
+        return false;
       }
       return err.response.data.error;
     } catch (error) {

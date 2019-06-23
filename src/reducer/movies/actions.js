@@ -87,7 +87,8 @@ export const Operation = {
         }
       });
   },
-  sendNewFavoriteStatus: (movieId, status) => (dispatch, _getState, api) => {
+  sendNewFavoriteStatus: (movieId, currentStatus) => (dispatch, _getState, api) => {
+    const status = currentStatus ? 0 : 1;
     return api.post(`/favorite/${movieId}/${status}`)
       .then((response) => {
         dispatch(ActionCreator.setFavoriteStatus(

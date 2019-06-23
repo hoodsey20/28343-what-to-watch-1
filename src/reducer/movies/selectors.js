@@ -4,6 +4,8 @@ import camelcaseKeys from 'camelcase-keys';
 import NameSpace from '../name-spaces';
 
 const NAME_SPACE = NameSpace.MOVIES;
+const MAX_GENRES = 9;
+const MAX_SIMILAR_MOVIES = 4;
 
 export const promoSelector = (state) => {
   const data = state[NAME_SPACE].promo;
@@ -16,7 +18,6 @@ const moviesSelector = (state) => moviesAdapter(state[NAME_SPACE].movies);
 const moviesReviews = (state) => state[NAME_SPACE].reviews;
 export const categorySelector = (state) => state[NAME_SPACE].category;
 const idSelector = (state, id) => id;
-const genreSelector = (state, id, genre) => genre;
 export const addReviewErrorSelector = (state) => state[NAME_SPACE].addReviewError;
 
 export const genresSelector = createSelector(
@@ -26,8 +27,13 @@ export const genresSelector = createSelector(
       movies.forEach((movie) =>
         genres.add(movie.genre)
       );
-      return Array.from(genres);
+      return Array.from(genres).slice(0, MAX_GENRES);
     }
+);
+
+export const favoritesSelector = createSelector(
+    moviesSelector,
+    (movies) => movies.filter((it) => it.isFavorite)
 );
 
 export const filteredMoviesSelector = createSelector(
@@ -38,23 +44,25 @@ export const filteredMoviesSelector = createSelector(
       : movies
 );
 
-export const similarMoviesSelectore = createSelector(
-    moviesSelector,
-    genreSelector,
-    idSelector,
-    (movies, genre, id) => {
-      return genre
-        ? movies.filter((it) => it.genre === genre && it.id !== id).slice(0, 4)
-        : [];
-    }
-);
-
 export const movieByIdSelector = createSelector(
     idSelector,
     moviesSelector,
     (id, movies) => {
       const filtered = movies.filter((it) => it.id === id);
       return filtered[0] ? filtered[0] : null;
+    }
+);
+
+export const similarMoviesSelector = createSelector(
+    moviesSelector,
+    movieByIdSelector,
+    (movies, movie) => {
+      if (!movie) {
+        return [];
+      }
+      return movies
+        .filter((it) => it.genre === movie.genre && it.id !== movie.id)
+        .slice(0, MAX_SIMILAR_MOVIES);
     }
 );
 

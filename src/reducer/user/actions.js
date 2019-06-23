@@ -37,8 +37,10 @@ export const Operation = {
       .then((response) => {
         if (response.data) {
           dispatch(ActionCreator.setUserData(response.data));
+          return true;
         }
-        return true;
-      });
+        return false;
+      })
+      .catch(() => false);
   },
 };

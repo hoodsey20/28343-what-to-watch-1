@@ -1,7 +1,8 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import {Link} from 'react-router-dom';
 
+import UserBlock from '../user-block/user-block.jsx';
+import Logo from '../logo/logo.jsx';
 import withFormHandler from '../../hocs/with-form-handler/with-form-handler';
 import withReviewSendHandler from '../../hocs/with-review-send-handler/with-review-send-handler';
 import withOnlySigned from '../../hocs/with-only-signed/with-only-signed';
@@ -13,6 +14,8 @@ export const AddReview = ({
   isFormValid,
   isFormSending,
   error,
+  history,
+  user,
 }) => {
   if (!movie) {
     return null;
@@ -33,18 +36,19 @@ export const AddReview = ({
         <h1 className="visually-hidden">WTW</h1>
 
         <header className="page-header">
-          <div className="logo">
-            <Link to="/" className="logo__link">
-              <span className="logo__letter logo__letter--1">W</span>
-              <span className="logo__letter logo__letter--2">T</span>
-              <span className="logo__letter logo__letter--3">W</span>
-            </Link>
-          </div>
+          <Logo history={history} />
 
           <nav className="breadcrumbs">
             <ul className="breadcrumbs__list">
               <li className="breadcrumbs__item">
-                <a href="movie-page.html" className="breadcrumbs__link">{name}</a>
+                <a
+                  href="#"
+                  className="breadcrumbs__link"
+                  onClick={(evt) => {
+                    evt.preventDefault();
+                    history.push(`/film/${movie.id}`);
+                  }}
+                >{name}</a>
               </li>
               <li className="breadcrumbs__item">
                 <a className="breadcrumbs__link">Add review</a>
@@ -52,11 +56,7 @@ export const AddReview = ({
             </ul>
           </nav>
 
-          <div className="user-block">
-            <div className="user-block__avatar">
-              <img src="img/avatar.jpg" alt="User avatar" width="63" height="63" />
-            </div>
-          </div>
+          <UserBlock history={history} user={user} />
         </header>
 
         <div className="movie-card__poster movie-card__poster--small">
@@ -100,7 +100,6 @@ export const AddReview = ({
   );
 };
 
-
 export default withOnlySigned(
     withFormHandler(
         withReviewSendHandler(AddReview)
@@ -109,8 +108,8 @@ export default withOnlySigned(
 
 AddReview.propTypes = {
   error: PropTypes.string,
-  inputHandler: PropTypes.func.isRequired,
-  formSubmitHandler: PropTypes.func.isRequired,
+  inputHandler: PropTypes.func,
+  formSubmitHandler: PropTypes.func,
   match: PropTypes.shape({
     params: PropTypes.shape({
       id: PropTypes.string.isRequired,
@@ -124,4 +123,10 @@ AddReview.propTypes = {
   }),
   isFormValid: PropTypes.bool.isRequired,
   isFormSending: PropTypes.bool.isRequired,
+  user: PropTypes.shape({
+    avatarUrl: PropTypes.string,
+  }),
+  history: PropTypes.shape({
+    push: PropTypes.func
+  }),
 };

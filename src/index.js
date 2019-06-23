@@ -11,7 +11,7 @@ import App from './components/app/app.jsx';
 import reducer from './reducer/reducer';
 import {createAPI} from './api';
 import {Operation} from './reducer/movies/actions';
-import {Operation as UserOperation} from './reducer/user/actions';
+import {Operation as UserOperation, ActionCreator as UserActionCreator} from './reducer/user/actions';
 
 const customHistory = createBrowserHistory({forceRefresh: true});
 
@@ -25,21 +25,47 @@ function init() {
       applyMiddleware(...middlewares)
   ));
 
-  store.dispatch(Operation.loadPromo());
+  function loadInitialData() {
+    store.dispatch(Operation.loadPromo());
+    store.dispatch(Operation.loadMovies());
+  }
+
+  function startApp() {
+    loadInitialData();
+    ReactDOM.render(
+        <BrowserRouter history={customHistory}>
+          <Provider store={store}>
+            <App />
+          </Provider>
+        </BrowserRouter>,
+        document.querySelector(`#root`)
+    );
+  }
+  let isUserSignedIn;
 
   store.dispatch(UserOperation.getCurrentUser())
-    .then(() => {
-      store.dispatch(Operation.loadMovies());
+    .then((res) => {
+      isUserSignedIn = res;
+      startApp();
     });
 
-  ReactDOM.render(
-      <BrowserRouter history={customHistory}>
-        <Provider store={store}>
-          <App />
-        </Provider>
-      </BrowserRouter>,
-      document.querySelector(`#root`)
-  );
+  const CHECK_AUTH_TIMEOUT = 1000 * 10;
+
+  // eslint-disable-next-line
+  let checkAuthTimer = setTimeout(function checkAuth() {
+    store.dispatch(UserOperation.getCurrentUser())
+    .then((res) => {
+      if (isUserSignedIn !== res) {
+        if (!res) {
+          store.dispatch(UserActionCreator.setUserData(null));
+        }
+        loadInitialData();
+        isUserSignedIn = res;
+      }
+      checkAuthTimer = setTimeout(checkAuth, CHECK_AUTH_TIMEOUT);
+    });
+  }, CHECK_AUTH_TIMEOUT);
+
 }
 
 init();
