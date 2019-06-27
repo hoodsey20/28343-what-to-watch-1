@@ -26,7 +26,7 @@ function getFormattedDate(dateString) {
 }
 
 function renderReviews(reviews) {
-  return reviews.map((it) => (
+  return reviews.reverse().map((it) => (
     <div key={it.id} className="review">
       <blockquote className="review__quote">
         <p className="review__text">{it.comment}</p>
