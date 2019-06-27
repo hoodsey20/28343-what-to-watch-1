@@ -91,10 +91,12 @@ export const Operation = {
     const status = currentStatus ? 0 : 1;
     return api.post(`/favorite/${movieId}/${status}`)
       .then((response) => {
-        dispatch(ActionCreator.setFavoriteStatus(
-            movieId,
-            response.data
-        ));
+        if (response.data) {
+          dispatch(ActionCreator.setFavoriteStatus(
+              movieId,
+              response.data
+          ));
+        }
       });
   }
 };
