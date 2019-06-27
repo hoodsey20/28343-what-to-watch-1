@@ -19,7 +19,11 @@ function init() {
   const api = createAPI(() => {
     customHistory.push(`/login`);
   });
-  const middlewares = [thunk.withExtraArgument(api), logger];
+  const middlewares = [
+    thunk.withExtraArgument(api),
+    // eslint-disable-next-line
+    process.env.NODE_ENV === `development` && logger
+  ].filter(Boolean);
   const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
   const store = createStore(reducer, composeEnhancers(
       applyMiddleware(...middlewares)
