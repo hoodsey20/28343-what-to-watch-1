@@ -26,10 +26,11 @@ function updatePromo(promo, newData, id) {
 }
 
 function updateReviews(reviews, newData, id) {
+  const newReviews = Object.assign({}, reviews);
   if (newData.length) {
-    reviews[id] = newData;
+    newReviews[id] = newData;
   }
-  return Object.assign({}, reviews);
+  return Object.assign({}, newReviews);
 }
 
 function updateFavoriteStatus(movies, newData, id) {
