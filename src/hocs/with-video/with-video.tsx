@@ -1,8 +1,27 @@
-import React from 'react';
-import PropTypes from 'prop-types';
+import * as React from "react";
+import * as PropTypes from "prop-types";
+import { Subtract } from "utility-types";
 
-const withVideo = (Component) => {
-  class WithVideo extends React.PureComponent {
+interface State {
+  progress: number;
+  duration: number;
+  isLoading: boolean;
+  isPlaying: boolean;
+}
+
+// Пропсы, которые добавляет хок в компонент
+interface InjectedProps {
+  renderVideo: (additionalClass: string) => typeof HTMLVideoElement;
+}
+
+const withVideo = Component => {
+  // Получаем пропсы переданного компонента
+  type P = React.ComponentProps<typeof Component>;
+  type T = Subtract<P, InjectedProps>;
+
+  class WithVideo extends React.PureComponent<T, State> {
+    private _videoRef: React.RefObject<HTMLVideoElement>;
+
     constructor(props) {
       super(props);
 
@@ -12,16 +31,16 @@ const withVideo = (Component) => {
         progress: 0,
         duration: 0,
         isLoading: true,
-        isPlaying: props.isPlaying,
+        isPlaying: props.isPlaying
       };
 
       this._setFullScreen = this._setFullScreen.bind(this);
     }
 
     render() {
-      const {isPlaying, progress, duration} = this.state;
-      const {movie} = this.props;
-      const {previewImage, previewVideoLink} = movie;
+      const { isPlaying, progress, duration } = this.state;
+      const { movie } = this.props;
+      const { previewImage, previewVideoLink } = movie;
 
       return (
         <Component
@@ -30,7 +49,7 @@ const withVideo = (Component) => {
           duration={duration}
           isPlaying={isPlaying}
           fullScreenHandler={this._setFullScreen}
-          renderVideo={(additionalClass) => (
+          renderVideo={additionalClass => (
             <video
               width="280"
               height="175"
@@ -49,19 +68,21 @@ const withVideo = (Component) => {
       const video = this._videoRef.current;
 
       if (video) {
-        video.oncanplaythrough = () => this.setState({
-          isLoading: false,
-        });
+        video.oncanplaythrough = () =>
+          this.setState({
+            isLoading: false
+          });
 
         video.onplay = () => {
           this.setState({
-            isPlaying: true,
+            isPlaying: true
           });
         };
 
-        video.onpause = () => this.setState({
-          isPlaying: false,
-        });
+        video.onpause = () =>
+          this.setState({
+            isPlaying: false
+          });
 
         video.ontimeupdate = () =>
           this.setState({
@@ -72,7 +93,7 @@ const withVideo = (Component) => {
     }
 
     componentDidUpdate() {
-      const {isPlaying, isPlayerMode} = this.props;
+      const { isPlaying, isPlayerMode } = this.props;
       const video = this._videoRef.current;
 
       if (isPlaying) {
@@ -116,8 +137,8 @@ const withVideo = (Component) => {
       id: PropTypes.number,
       name: PropTypes.string,
       previewImage: PropTypes.string,
-      previewVideoLink: PropTypes.string,
-    }).isRequired,
+      previewVideoLink: PropTypes.string
+    }).isRequired
   };
 
   return WithVideo;

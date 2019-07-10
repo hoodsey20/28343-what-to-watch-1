@@ -1,14 +1,14 @@
-import React from 'react';
+import * as React from "react";
 
 let timeoutID;
 const PLAY_DELAY = 1000;
 
-const withActivePlayer = (Component) => {
+const withActivePlayer = Component => {
   class WithActivePlayer extends React.PureComponent {
     constructor(props) {
       super(props);
       this.state = {
-        activeCard: null,
+        activeCard: null
       };
 
       this._cardHoverHandler = this._cardHoverHandler.bind(this);
@@ -17,13 +17,13 @@ const withActivePlayer = (Component) => {
 
     _cardHoverHandler(movieId) {
       timeoutID = setTimeout(() => {
-        this.setState({activeCard: movieId});
+        this.setState({ activeCard: movieId });
       }, PLAY_DELAY);
     }
 
     _cardLeaveHandler() {
       clearTimeout(timeoutID);
-      this.setState({activeCard: null});
+      this.setState({ activeCard: null });
     }
 
     componentWillUnmount() {
@@ -31,7 +31,7 @@ const withActivePlayer = (Component) => {
     }
 
     render() {
-      const {activeCard} = this.state;
+      const { activeCard } = this.state;
       return (
         <Component
           {...this.props}

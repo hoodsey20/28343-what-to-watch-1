@@ -1,15 +1,15 @@
-import React from 'react';
-import PropTypes from 'prop-types';
+import * as React from "react";
+import * as PropTypes from "prop-types";
 
-import Player from '../../components/player/player.jsx';
+import Player from "../../components/player/player.jsx";
 
-const withPlayerController = (Component) => {
+const withPlayerController = Component => {
   class WithPlayerController extends React.PureComponent {
     constructor(props) {
       super(props);
       this.state = {
         playStatus: props.isPlaying || true,
-        isVisible: false,
+        isVisible: false
       };
 
       this._playStatusHandler = this._playStatusHandler.bind(this);
@@ -17,28 +17,28 @@ const withPlayerController = (Component) => {
     }
 
     _playStatusHandler() {
-      const {playStatus} = this.state;
-      this.setState({playStatus: !playStatus});
+      const { playStatus } = this.state;
+      this.setState({ playStatus: !playStatus });
     }
 
     _playerVisibleHandler() {
-      const {isVisible} = this.state;
-      const {movie} = this.props;
+      const { isVisible } = this.state;
+      const { movie } = this.props;
       if (movie) {
-        this.setState({isVisible: !isVisible});
+        this.setState({ isVisible: !isVisible });
       }
     }
 
     render() {
-      const {playStatus, isVisible} = this.state;
-      const {movie} = this.props;
+      const { playStatus, isVisible } = this.state;
+      const { movie } = this.props;
       return (
         <React.Fragment>
           <Component
             {...this.props}
             playerVisibleHandler={this._playerVisibleHandler}
           />
-          {isVisible &&
+          {isVisible && (
             <Player
               movie={movie}
               isPlayerMode
@@ -46,7 +46,7 @@ const withPlayerController = (Component) => {
               playStatusHandler={this._playStatusHandler}
               playerVisibleHandler={this._playerVisibleHandler}
             />
-          }
+          )}
         </React.Fragment>
       );
     }
@@ -60,8 +60,8 @@ const withPlayerController = (Component) => {
       genre: PropTypes.string,
       backgroundImage: PropTypes.string,
       posterImage: PropTypes.string,
-      backgroundColor: PropTypes.string,
-    }),
+      backgroundColor: PropTypes.string
+    })
   };
 
   return WithPlayerController;

@@ -1,23 +1,19 @@
-import React from 'react';
-import PropTypes from 'prop-types';
-import {connect} from 'react-redux';
-import {compose} from 'redux';
+import * as React from "react";
+import * as PropTypes from "prop-types";
+import { connect } from "react-redux";
+import { compose } from "redux";
 
-import {userDataSelector} from '../../reducer/user/selectors';
+import { userDataSelector } from "../../reducer/user/selectors";
 
-const withOnlySignedOut = (Component) => {
+const withOnlySignedOut = Component => {
   class WithOnlySignedOut extends React.PureComponent {
     render() {
-      const {history, user} = this.props;
+      const { history, user } = this.props;
       if (user) {
         history.goBack();
         return null;
       }
-      return (
-        <Component
-          {...this.props}
-        />
-      );
+      return <Component {...this.props} />;
     }
   }
 
@@ -29,18 +25,18 @@ const withOnlySignedOut = (Component) => {
       id: PropTypes.number,
       email: PropTypes.string,
       name: PropTypes.string,
-      avatarUrl: PropTypes.string,
-    }),
+      avatarUrl: PropTypes.string
+    })
   };
 
   return WithOnlySignedOut;
 };
 
-const mapStateToProps = (state) => ({
-  user: userDataSelector(state),
+const mapStateToProps = state => ({
+  user: userDataSelector(state)
 });
 
 export default compose(
-    connect(mapStateToProps),
-    withOnlySignedOut
+  connect(mapStateToProps),
+  withOnlySignedOut
 );

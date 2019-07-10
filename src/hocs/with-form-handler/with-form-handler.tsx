@@ -1,6 +1,6 @@
-import React from 'react';
+import * as React from "react";
 
-const withFormHandler = (Component) => {
+const withFormHandler = Component => {
   class WithFormHandler extends React.PureComponent {
     constructor(props) {
       super(props);
@@ -16,8 +16,8 @@ const withFormHandler = (Component) => {
     }
 
     _inputHandler(evt) {
-      const {name, value} = evt.target;
-      this.setState({[name]: value});
+      const { name, value } = evt.target;
+      this.setState({ [name]: value });
     }
 
     render() {
