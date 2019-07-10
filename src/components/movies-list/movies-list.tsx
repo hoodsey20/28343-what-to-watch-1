@@ -1,11 +1,20 @@
 import * as React from "react";
 import * as PropTypes from "prop-types";
+import { Movie } from "../../types";
 
 import SmallMoovieCard from "../small-movie-card/small-movie-card";
 import withActivePlayer from "../../hocs/with-active-player/with-active-player";
 import withShowMore from "../../hocs/with-show-more/with-show-more";
 
-export const MoviesList = ({
+interface Props {
+  movies: Movie[];
+  history: any;
+  cardHoverHandler: () => void;
+  cardLeaveHandler: () => void;
+  activeCard: Movie["id"];
+}
+
+export const MoviesList: React.SFC<Props> = ({
   movies,
   cardHoverHandler,
   cardLeaveHandler,
@@ -31,20 +40,3 @@ export const MoviesList = ({
 };
 
 export default withActivePlayer(withShowMore(MoviesList));
-
-MoviesList.propTypes = {
-  movies: PropTypes.arrayOf(
-    PropTypes.shape({
-      id: PropTypes.number.isRequired,
-      name: PropTypes.string.isRequired
-    })
-  ).isRequired,
-  genreLike: PropTypes.string,
-  activeCard: PropTypes.number,
-  cardHoverHandler: PropTypes.func.isRequired,
-  cardLeaveHandler: PropTypes.func.isRequired,
-  history: PropTypes.shape({
-    push: PropTypes.func
-  }),
-  movieId: PropTypes.string
-};

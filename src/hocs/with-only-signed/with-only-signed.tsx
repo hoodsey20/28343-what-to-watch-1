@@ -1,12 +1,18 @@
 import * as React from "react";
-import * as PropTypes from "prop-types";
 import { connect } from "react-redux";
 import { compose } from "redux";
+import { History } from "history";
+import { User } from "../../types";
 
 import { userDataSelector } from "../../reducer/user/selectors";
 
+interface Props {
+  history: History;
+  user: User;
+}
+
 const withOnlySigned = Component => {
-  class WithOnlySigned extends React.PureComponent {
+  class WithOnlySigned extends React.PureComponent<Props> {
     render() {
       const { history, user } = this.props;
       if (!user) {
@@ -16,18 +22,6 @@ const withOnlySigned = Component => {
       return <Component {...this.props} user={user} />;
     }
   }
-
-  WithOnlySigned.propTypes = {
-    history: PropTypes.shape({
-      push: PropTypes.func
-    }),
-    user: PropTypes.shape({
-      id: PropTypes.number,
-      email: PropTypes.string,
-      name: PropTypes.string,
-      avatarUrl: PropTypes.string
-    })
-  };
 
   return WithOnlySigned;
 };

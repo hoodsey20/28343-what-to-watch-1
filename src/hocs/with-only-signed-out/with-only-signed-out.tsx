@@ -1,12 +1,17 @@
 import * as React from "react";
-import * as PropTypes from "prop-types";
 import { connect } from "react-redux";
 import { compose } from "redux";
-
+import { History } from "history";
+import { User } from "../../types";
 import { userDataSelector } from "../../reducer/user/selectors";
 
+interface Props {
+  history: History;
+  user: User;
+}
+
 const withOnlySignedOut = Component => {
-  class WithOnlySignedOut extends React.PureComponent {
+  class WithOnlySignedOut extends React.PureComponent<Props> {
     render() {
       const { history, user } = this.props;
       if (user) {
@@ -16,18 +21,6 @@ const withOnlySignedOut = Component => {
       return <Component {...this.props} />;
     }
   }
-
-  WithOnlySignedOut.propTypes = {
-    history: PropTypes.shape({
-      push: PropTypes.func
-    }),
-    user: PropTypes.shape({
-      id: PropTypes.number,
-      email: PropTypes.string,
-      name: PropTypes.string,
-      avatarUrl: PropTypes.string
-    })
-  };
 
   return WithOnlySignedOut;
 };

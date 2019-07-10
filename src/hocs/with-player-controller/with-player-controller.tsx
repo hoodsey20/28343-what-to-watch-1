@@ -1,10 +1,22 @@
 import * as React from "react";
-import * as PropTypes from "prop-types";
+import { Subtract } from "utility-types";
 
 import Player from "../../components/player/player";
 
+interface State {
+  isVisible: boolean;
+  playStatus: boolean;
+}
+
+// Пропсы, которые добавляет хок в компонент
+interface InjectedProps {}
+
 const withPlayerController = Component => {
-  class WithPlayerController extends React.PureComponent {
+  // Получаем пропсы переданного компонента
+  type P = React.ComponentProps<typeof Component>;
+  type T = Subtract<P, InjectedProps>;
+
+  class WithPlayerController extends React.PureComponent<T, State> {
     constructor(props) {
       super(props);
       this.state = {
@@ -51,18 +63,6 @@ const withPlayerController = Component => {
       );
     }
   }
-  WithPlayerController.propTypes = {
-    isPlaying: PropTypes.bool,
-    movie: PropTypes.shape({
-      id: PropTypes.number.isRequired,
-      name: PropTypes.string.isRequired,
-      released: PropTypes.number,
-      genre: PropTypes.string,
-      backgroundImage: PropTypes.string,
-      posterImage: PropTypes.string,
-      backgroundColor: PropTypes.string
-    })
-  };
 
   return WithPlayerController;
 };

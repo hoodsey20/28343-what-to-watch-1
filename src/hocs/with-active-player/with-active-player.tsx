@@ -1,10 +1,22 @@
 import * as React from "react";
+import { Subtract } from "utility-types";
+import { Movie } from "../../types";
 
 let timeoutID;
 const PLAY_DELAY = 1000;
 
+interface State {
+  activeCard: Movie["id"] | null;
+}
+
+// Пропсы, которые добавляет хок в компонент
+interface InjectedProps {}
+
 const withActivePlayer = Component => {
-  class WithActivePlayer extends React.PureComponent {
+  // Получаем пропсы переданного компонента
+  type P = React.ComponentProps<typeof Component>;
+  type T = Subtract<P, InjectedProps>;
+  class WithActivePlayer extends React.PureComponent<T, State> {
     constructor(props) {
       super(props);
       this.state = {

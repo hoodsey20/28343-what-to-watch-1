@@ -1,7 +1,8 @@
 import * as React from "react";
-import * as PropTypes from "prop-types";
 import { connect } from "react-redux";
 import { compose } from "redux";
+import { History } from "history";
+import { Review, Match, Movie, FormFieldData } from "../../types";
 
 import {
   reviewByIdSelector,
@@ -13,8 +14,21 @@ import { Operation } from "../../reducer/movies/actions";
 const REVIEW_MIN_LENGTH = 50;
 const REVIEW_MAX_LENGTH = 400;
 
+interface State {}
+interface Props {
+  reviews: Review[];
+  history: History;
+  match: Match;
+  movie: Movie;
+  state: FormFieldData;
+}
+
+interface State {
+  isFormSending: boolean;
+}
+
 const withReviewSendHandler = Component => {
-  class WithReviewSendHandler extends React.PureComponent {
+  class WithReviewSendHandler extends React.PureComponent<Props, State> {
     constructor(props) {
       super(props);
 
@@ -80,30 +94,6 @@ const withReviewSendHandler = Component => {
       );
     }
   }
-
-  WithReviewSendHandler.propTypes = {
-    error: PropTypes.string,
-    sendReview: PropTypes.func,
-    reviews: PropTypes.array,
-    movie: PropTypes.shape({
-      id: PropTypes.number.isRequired,
-      name: PropTypes.string.isRequired,
-      backgroundImage: PropTypes.string,
-      posterImage: PropTypes.string
-    }),
-    state: PropTypes.shape({
-      comment: PropTypes.string,
-      rating: PropTypes.string
-    }),
-    match: PropTypes.shape({
-      params: PropTypes.shape({
-        id: PropTypes.string.isRequired
-      })
-    }),
-    history: PropTypes.shape({
-      push: PropTypes.func
-    })
-  };
 
   return WithReviewSendHandler;
 };

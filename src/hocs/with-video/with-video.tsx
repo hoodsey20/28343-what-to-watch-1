@@ -1,5 +1,4 @@
 import * as React from "react";
-import * as PropTypes from "prop-types";
 import { Subtract } from "utility-types";
 
 interface State {
@@ -129,17 +128,6 @@ const withVideo = Component => {
       }
     }
   }
-
-  WithVideo.propTypes = {
-    isPlaying: PropTypes.bool,
-    isPlayerMode: PropTypes.bool,
-    movie: PropTypes.shape({
-      id: PropTypes.number,
-      name: PropTypes.string,
-      previewImage: PropTypes.string,
-      previewVideoLink: PropTypes.string
-    }).isRequired
-  };
 
   return WithVideo;
 };

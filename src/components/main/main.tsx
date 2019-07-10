@@ -1,7 +1,6 @@
 import * as React from "react";
 import { connect } from "react-redux";
-import * as PropTypes from "prop-types";
-
+import { Movie, User } from "../../types";
 import { Operation } from "../../reducer/movies/actions";
 
 import Logo from "../logo/logo";
@@ -15,7 +14,16 @@ import {
 } from "../../reducer/movies/selectors";
 import withPlayerController from "../../hocs/with-player-controller/with-player-controller";
 
-const Main = ({
+interface Props {
+  user: User;
+  movie: Movie;
+  movies: Movie[];
+  history: any;
+  playerVisibleHandler: () => void;
+  setFavoriteStatus: (id: Movie["id"], isFavorite: Movie["isFavorite"]) => void;
+}
+
+const Main: React.SFC<Props> = ({
   user,
   history,
   playerVisibleHandler,
@@ -23,6 +31,7 @@ const Main = ({
   movies,
   setFavoriteStatus
 }) => {
+  if (!movie) return null;
   const {
     id,
     name,
@@ -31,7 +40,7 @@ const Main = ({
     backgroundImage,
     posterImage,
     isFavorite
-  } = movie || {};
+  } = movie;
   return (
     <React.Fragment>
       <div className="visually-hidden">
@@ -188,27 +197,3 @@ export default connect(
   mapStateToProps,
   mapDispatchToProps
 )(withPlayerController(Main));
-
-Main.propTypes = {
-  movies: PropTypes.array,
-  user: PropTypes.shape({
-    id: PropTypes.number,
-    email: PropTypes.string,
-    name: PropTypes.string,
-    avatarUrl: PropTypes.string
-  }),
-  history: PropTypes.shape({
-    push: PropTypes.func
-  }),
-  playerVisibleHandler: PropTypes.func,
-  setFavoriteStatus: PropTypes.func,
-  movie: PropTypes.shape({
-    id: PropTypes.number.isRequired,
-    name: PropTypes.string.isRequired,
-    released: PropTypes.number,
-    genre: PropTypes.string,
-    backgroundImage: PropTypes.string,
-    posterImage: PropTypes.string,
-    isFavorite: PropTypes.bool
-  })
-};

@@ -1,7 +1,7 @@
 import * as React from "react";
-import * as PropTypes from "prop-types";
 import { connect } from "react-redux";
 import { compose } from "redux";
+import { Movie, Review, Match } from "../../types";
 
 import {
   reviewByIdSelector,
@@ -15,8 +15,16 @@ const Tabs = {
   2: `Reviews`
 };
 
+interface Props {
+  match: Match;
+  movie: Movie;
+  reviews: Review[];
+  loadReview: (id: number) => void;
+  setFavoriteStatus: (id: number, status: boolean) => void;
+}
+
 const withDetailData = Component => {
-  class WithDetailData extends React.PureComponent {
+  class WithDetailData extends React.PureComponent<Props> {
     constructor(props) {
       super(props);
 
@@ -48,21 +56,6 @@ const withDetailData = Component => {
       );
     }
   }
-
-  WithDetailData.propTypes = {
-    reviews: PropTypes.array,
-    loadReview: PropTypes.func,
-    setFavoriteStatus: PropTypes.func,
-    match: PropTypes.shape({
-      params: PropTypes.shape({
-        id: PropTypes.string.isRequired
-      })
-    }),
-    movie: PropTypes.shape({
-      id: PropTypes.number.isRequired,
-      isFavorite: PropTypes.bool.isRequired
-    })
-  };
 
   return WithDetailData;
 };

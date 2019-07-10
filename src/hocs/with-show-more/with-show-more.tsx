@@ -1,11 +1,22 @@
 import * as React from "react";
-import * as PropTypes from "prop-types";
+import { Subtract } from "utility-types";
 import ShowMore from "../../components/show-more/show-more";
 
 const ITEMS_COUNT_IN_DATA_CHUNK = 20;
 
+interface State {
+  chunkCount: number;
+  isShowMoreVisible: boolean;
+}
+
+// Пропсы, которые добавляет хок в компонент
+interface InjectedProps {}
+
 const withShowMore = Component => {
-  class WithShowMore extends React.PureComponent {
+  // Получаем пропсы переданного компонента
+  type P = React.ComponentProps<typeof Component>;
+  type T = Subtract<P, InjectedProps>;
+  class WithShowMore extends React.PureComponent<T, State> {
     constructor(props) {
       super(props);
       this.state = {
@@ -60,10 +71,6 @@ const withShowMore = Component => {
       );
     }
   }
-
-  WithShowMore.propTypes = {
-    movies: PropTypes.array
-  };
 
   return WithShowMore;
 };

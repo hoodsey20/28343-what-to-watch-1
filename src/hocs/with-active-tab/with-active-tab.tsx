@@ -1,7 +1,11 @@
 import * as React from "react";
 
+interface State {
+  activeTab: number;
+}
+
 const withActiveTab = Component => {
-  class WithActiveTab extends React.PureComponent {
+  class WithActiveTab extends React.PureComponent<null, State> {
     constructor(props) {
       super(props);
       this.state = {
