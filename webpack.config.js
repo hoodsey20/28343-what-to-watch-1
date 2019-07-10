@@ -3,7 +3,7 @@ const webpack = require(`webpack`);
 
 module.exports = (env, options) => {
   return {
-    entry: `./src/index.js`,
+    entry: `./src/index.tsx`,
     output: {
       filename: `bundle.js`,
       path: path.join(__dirname, `public`)
@@ -12,7 +12,7 @@ module.exports = (env, options) => {
       contentBase: path.join(__dirname, `public`),
       compress: false,
       port: 1337,
-      historyApiFallback: true,
+      historyApiFallback: true
     },
     module: {
       rules: [
@@ -20,18 +20,25 @@ module.exports = (env, options) => {
           test: /\.(js|jsx)$/,
           exclude: /node_modules/,
           use: {
-            loader: `babel-loader`,
-          },
+            loader: `babel-loader`
+          }
+        },
+        {
+          test: /\.(tsx|ts)?$/,
+          loader: `ts-loader`
         }
-      ],
+      ]
+    },
+    resolve: {
+      extensions: [`.ts`, `.tsx`, `.js`, `json`]
     },
     devtool: `source-map`,
     plugins: [
       new webpack.DefinePlugin({
-        'process.env': {
-          'NODE_ENV': JSON.stringify(`${options.mode}`)
+        "process.env": {
+          NODE_ENV: JSON.stringify(`${options.mode}`)
         }
       })
-    ],
+    ]
   };
 };
