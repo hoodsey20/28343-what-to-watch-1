@@ -7,7 +7,7 @@ import thunk from "redux-thunk";
 import { BrowserRouter } from "react-router-dom";
 import { createBrowserHistory } from "history";
 
-import App from "./components/app/app.jsx";
+import App from "./components/app/app";
 import reducer from "./reducer/reducer";
 import { createAPI } from "./api";
 import { Operation } from "./reducer/movies/actions";

@@ -1,6 +1,6 @@
 import * as React from "react";
 import * as PropTypes from "prop-types";
-import ShowMore from "../../components/show-more/show-more.jsx";
+import ShowMore from "../../components/show-more/show-more";
 
 const ITEMS_COUNT_IN_DATA_CHUNK = 20;
 

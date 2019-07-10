@@ -1,7 +1,7 @@
 import * as React from "react";
 import * as PropTypes from "prop-types";
 
-import Player from "../../components/player/player.jsx";
+import Player from "../../components/player/player";
 
 const withPlayerController = Component => {
   class WithPlayerController extends React.PureComponent {

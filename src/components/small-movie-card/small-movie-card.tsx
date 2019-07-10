@@ -1,16 +1,16 @@
-import React from 'react';
-import PropTypes from 'prop-types';
+import * as React from "react";
+import * as PropTypes from "prop-types";
 
-import withVideo from '../../hocs/with-video/with-video';
+import withVideo from "../../hocs/with-video/with-video";
 
 export const SmallMoovieCard = ({
   movie,
   clickHandler,
   hoverHandler,
   leaveHandler,
-  renderVideo,
+  renderVideo
 }) => {
-  const {name, id} = movie;
+  const { name, id } = movie;
 
   return (
     <article
@@ -18,20 +18,24 @@ export const SmallMoovieCard = ({
       onMouseEnter={() => hoverHandler(id)}
       onMouseLeave={leaveHandler}
     >
-      <div className="small-movie-card__image" onClick={() => clickHandler(movie)}>
+      <div
+        className="small-movie-card__image"
+        onClick={() => clickHandler(movie)}
+      >
         {renderVideo()}
       </div>
       <h3
         className="small-movie-card__title"
-        onClick={(evt) => {
+        onClick={evt => {
           evt.preventDefault();
           clickHandler(movie);
         }}
       >
-        <a className="small-movie-card__link" href="movie-page.html">{name}</a>
+        <a className="small-movie-card__link" href="movie-page.html">
+          {name}
+        </a>
       </h3>
     </article>
-
   );
 };
 
@@ -40,12 +44,12 @@ SmallMoovieCard.propTypes = {
     id: PropTypes.number,
     name: PropTypes.string,
     previewImage: PropTypes.string,
-    previewVideoLink: PropTypes.string,
+    previewVideoLink: PropTypes.string
   }).isRequired,
   clickHandler: PropTypes.func,
   hoverHandler: PropTypes.func,
   leaveHandler: PropTypes.func,
-  renderVideo: PropTypes.func.isRequired,
+  renderVideo: PropTypes.func.isRequired
 };
 
 export default withVideo(SmallMoovieCard);
