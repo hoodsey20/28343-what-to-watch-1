@@ -12,10 +12,7 @@
     "noUnusedLocals": true,
     "noUnusedParameters": true,
     "allowJs": true,
-    "strict": true,
-    "paths": {
-      "*": ["*"]
-    }
+    "strict": true
   },
   "exclude": ["node_modules", "dist"]
 }

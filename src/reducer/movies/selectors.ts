@@ -1,5 +1,7 @@
 import { createSelector } from "reselect";
 import * as camelcaseKeys from "camelcase-keys";
+import { AppState } from "../reducer";
+import { Review, Movie } from "./types";
 
 import NameSpace from "../name-spaces";
 
@@ -7,24 +9,27 @@ const NAME_SPACE = NameSpace.MOVIES;
 const MAX_GENRES = 9;
 const MAX_SIMILAR_MOVIES = 4;
 
-export const promoSelector = state => {
+export const promoSelector = (state: AppState) => {
   const data = state[NAME_SPACE].promo;
   if (data) {
     return camelcaseKeys(data);
   }
   return data;
 };
-const moviesSelector = state => moviesAdapter(state[NAME_SPACE].movies);
-const moviesReviews = state => state[NAME_SPACE].reviews;
-export const categorySelector = state => state[NAME_SPACE].category;
-const idSelector = (state, id) => id;
-export const addReviewErrorSelector = state => state[NAME_SPACE].addReviewError;
+const moviesSelector = (state: AppState) =>
+  moviesAdapter(state[NAME_SPACE].movies);
+const moviesReviews = (state: AppState): Review[] => state[NAME_SPACE].reviews;
+export const categorySelector = (state: AppState): string =>
+  state[NAME_SPACE].category;
+const idSelector = (state: AppState, id: number): number => id;
+export const addReviewErrorSelector = (state: AppState) =>
+  state[NAME_SPACE].addReviewError;
 
 export const genresSelector = createSelector(
   moviesSelector,
   movies => {
     const genres = new Set().add(null);
-    movies.forEach(movie => genres.add(movie.genre));
+    movies.forEach((movie: Movie) => genres.add(movie.genre));
     return Array.from(genres).slice(0, MAX_GENRES);
   }
 );

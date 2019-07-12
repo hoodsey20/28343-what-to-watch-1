@@ -1,13 +1,13 @@
-import ActionTypes from "./types";
+import { ActionTypes, UserActionTypes, User } from "./types";
 
 const { SET_USER_DATA, SET_USER_ERROR } = ActionTypes;
 
 export const ActionCreator = {
-  setUserData: data => ({
+  setUserData: (data: User | null): UserActionTypes => ({
     type: SET_USER_DATA,
     payload: data
   }),
-  setUserError: data => ({
+  setUserError: (data: string | null): UserActionTypes => ({
     type: SET_USER_ERROR,
     payload: data
   })

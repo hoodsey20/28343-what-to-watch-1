@@ -8,7 +8,7 @@ import { BrowserRouter } from "react-router-dom";
 import { createBrowserHistory } from "history";
 
 import App from "./components/app/app";
-import reducer from "./reducer/reducer";
+import { rootReducer } from "./reducer/reducer";
 import { createAPI } from "./api";
 import { Operation } from "./reducer/movies/actions";
 import {
@@ -31,7 +31,7 @@ function init() {
   ].filter(Boolean);
   const composeEnhancers = __REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
   const store = createStore(
-    reducer,
+    rootReducer,
     composeEnhancers(applyMiddleware(...middlewares))
   );
 

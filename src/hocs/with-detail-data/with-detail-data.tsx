@@ -2,7 +2,7 @@ import * as React from "react";
 import { connect } from "react-redux";
 import { compose } from "redux";
 import { Movie, Review, Match } from "../../types";
-
+import { AppState } from "../../reducer/reducer";
 import {
   reviewByIdSelector,
   movieByIdSelector
@@ -61,7 +61,7 @@ const withDetailData = Component => {
 };
 
 const makeMapStateToProps = () => {
-  const mapStateToProps = (state, props) => {
+  const mapStateToProps = (state: AppState, props: Props) => {
     return {
       reviews: reviewByIdSelector(state, Number(props.match.params.id)),
       movie: movieByIdSelector(state, Number(props.match.params.id))
@@ -70,11 +70,11 @@ const makeMapStateToProps = () => {
   return mapStateToProps;
 };
 
-const mapDispatchToProps = dispatch => ({
-  loadReview: id => {
+const mapDispatchToProps = (dispatch: (any0: any) => void) => ({
+  loadReview: (id: number) => {
     dispatch(Operation.loadReviews(id));
   },
-  setFavoriteStatus: (id, status) => {
+  setFavoriteStatus: (id: number, status: boolean) => {
     dispatch(Operation.sendNewFavoriteStatus(id, status));
   }
 });

@@ -1,4 +1,10 @@
-import { ActionTypes, MoviesState, MoviesActionTypes, Review } from "./types";
+import {
+  ActionTypes,
+  MoviesState,
+  MoviesActionTypes,
+  Review,
+  Movie
+} from "./types";
 
 const {
   SET_FILTER_CATEGORY,
@@ -10,7 +16,7 @@ const {
   SET_FAVORITE_STATUS
 } = ActionTypes;
 
-const initialState = {
+const initialState: MoviesState = {
   category: null,
   movies: [],
   promo: null,
@@ -18,7 +24,7 @@ const initialState = {
   addReviewError: null
 };
 
-function updatePromo(promo, newData, id) {
+function updatePromo(promo: Movie | null, newData: Movie, id: number) {
   if (promo && promo.id && promo.id === id) {
     promo = newData;
   }
@@ -37,7 +43,7 @@ function updateReviews(
   return Object.assign({}, newReviews);
 }
 
-function updateFavoriteStatus(movies, newData, id) {
+function updateFavoriteStatus(movies: Movie[], newData: Movie, id: number) {
   let index;
   movies.forEach((it, i) => {
     if (it.id === Number(id)) {

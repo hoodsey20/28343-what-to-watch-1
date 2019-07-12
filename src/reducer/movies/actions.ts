@@ -21,7 +21,7 @@ export const ActionCreator = {
     payload: categoryName
   }),
 
-  loadReviews: (movieId: number, data): MoviesActionTypes => ({
+  loadReviews: (movieId: number, data: Review[]): MoviesActionTypes => ({
     type: LOAD_REVIEWS,
     payload: { movieId, data }
   }),
@@ -36,14 +36,14 @@ export const ActionCreator = {
     payload: data
   }),
 
-  addReview: (movieId: Movie["id"], data: Review): MoviesActionTypes => ({
+  addReview: (movieId: Movie["id"], data: Review[]): MoviesActionTypes => ({
     type: ADD_REVIEW,
     payload: { movieId, data }
   }),
 
   setFavoriteStatus: (
     movieId: Movie["id"],
-    data: boolean
+    data: Movie
   ): MoviesActionTypes => ({
     type: SET_FAVORITE_STATUS,
     payload: { movieId, data }
@@ -80,7 +80,7 @@ export const Operation = {
       }
     });
   },
-  sendNewFavoriteStatus: (movieId, currentStatus) => (
+  sendNewFavoriteStatus: (movieId: number, currentStatus: boolean) => (
     dispatch,
     _getState,
     api
