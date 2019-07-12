@@ -6,7 +6,16 @@
     "module": "commonjs",
     "target": "es2016",
     "jsx": "react",
-    "allowSyntheticDefaultImports": false
+    "allowSyntheticDefaultImports": false,
+    "noImplicitAny": true,
+    "strictNullChecks": true,
+    "noUnusedLocals": true,
+    "noUnusedParameters": true,
+    "allowJs": true,
+    "strict": true,
+    "paths": {
+      "*": ["*"]
+    }
   },
   "exclude": ["node_modules", "dist"]
 }

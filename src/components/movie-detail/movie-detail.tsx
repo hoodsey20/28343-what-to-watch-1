@@ -1,6 +1,7 @@
 import * as React from "react";
-import * as PropTypes from "prop-types";
 import { connect } from "react-redux";
+import { History } from "history";
+import { Movie, Review, TabData, Match, User } from "../../types";
 
 import { userDataSelector } from "../../reducer/user/selectors";
 import { similarMoviesSelector } from "../../reducer/movies/selectors";
@@ -12,7 +13,20 @@ import MoviesList from "../movies-list/movies-list";
 import withPlayerController from "../../hocs/with-player-controller/with-player-controller";
 import withDetailData from "../../hocs/with-detail-data/with-detail-data";
 
-export const MovieDetail = ({
+interface Props {
+  movie: Movie;
+  movies: Movie[];
+  reviews: Review[];
+  changeTabHandler: (evt: React.SyntheticEvent, id: number) => void;
+  tabs: TabData;
+  match: Match;
+  history: History;
+  user: User;
+  playerVisibleHandler: () => void;
+  setFavoriteStatusHandler: () => void;
+}
+
+export const MovieDetail: React.SFC<Props> = ({
   user,
   movie,
   movies,
@@ -256,32 +270,3 @@ const makeMapStateToProps = () => {
 export default connect(makeMapStateToProps)(
   withDetailData(withPlayerController(MovieDetail))
 );
-
-MovieDetail.propTypes = {
-  user: PropTypes.shape({
-    avatarUrl: PropTypes.string
-  }),
-  movies: PropTypes.array,
-  movie: PropTypes.shape({
-    id: PropTypes.number.isRequired,
-    name: PropTypes.string.isRequired,
-    released: PropTypes.number,
-    genre: PropTypes.string,
-    backgroundImage: PropTypes.string,
-    posterImage: PropTypes.string,
-    backgroundColor: PropTypes.string,
-    isFavorite: PropTypes.bool.isRequired
-  }),
-  match: PropTypes.shape({
-    params: PropTypes.shape({
-      id: PropTypes.string.isRequired
-    })
-  }),
-  history: PropTypes.shape({
-    push: PropTypes.func
-  }),
-  playerVisibleHandler: PropTypes.func,
-  setFavoriteStatusHandler: PropTypes.func,
-  tabs: PropTypes.objectOf(PropTypes.string),
-  reviews: PropTypes.array
-};

@@ -7,7 +7,14 @@ export interface Movie {
   genre: string;
   backgroundImage: string;
   posterImage: string;
+  director: string;
   isFavorite: boolean;
+  runTime: number;
+  starring: string[];
+  rating: number;
+  scoresCount: number;
+  description: string;
+  backgroundColor: string;
 }
 
 export interface User {
@@ -35,4 +42,8 @@ export interface Match {
 
 export interface FormFieldData {
   [key: string]: string;
+}
+
+export interface TabData {
+  [key: number]: string;
 }

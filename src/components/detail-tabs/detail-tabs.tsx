@@ -1,9 +1,9 @@
 import * as React from "react";
-import * as PropTypes from "prop-types";
+import { Movie, Review, TabData } from "../../types";
 
 import withActiveTab from "../../hocs/with-active-tab/with-active-tab";
 
-function getRatingName(rating) {
+function getRatingName(rating: number) {
   if (rating < 3) {
     return `Bad`;
   } else if (rating < 5) {
@@ -41,7 +41,15 @@ function renderReviews(reviews) {
   ));
 }
 
-export const DetailTabs = ({
+interface Props {
+  movie: Movie;
+  reviews: Review[];
+  changeTabHandler: (evt: React.SyntheticEvent, id: number) => void;
+  activeTab: number;
+  tabs: TabData;
+}
+
+export const DetailTabs: React.SFC<Props> = ({
   movie,
   changeTabHandler,
   activeTab,
@@ -159,34 +167,3 @@ export const DetailTabs = ({
 };
 
 export default withActiveTab(DetailTabs);
-
-DetailTabs.propTypes = {
-  activeTab: PropTypes.number.isRequired,
-  changeTabHandler: PropTypes.func.isRequired,
-  tabs: PropTypes.objectOf(PropTypes.string),
-
-  movie: PropTypes.shape({
-    id: PropTypes.number.isRequired,
-    released: PropTypes.number,
-    runTime: PropTypes.number,
-    genre: PropTypes.string,
-    director: PropTypes.string,
-    description: PropTypes.string,
-    rating: PropTypes.number,
-    scoresCount: PropTypes.number,
-    starring: PropTypes.arrayOf(PropTypes.string)
-  }),
-
-  reviews: PropTypes.arrayOf(
-    PropTypes.shape({
-      comment: PropTypes.string,
-      date: PropTypes.string,
-      id: PropTypes.number,
-      rating: PropTypes.number,
-      user: PropTypes.shape({
-        id: PropTypes.number,
-        name: PropTypes.string
-      })
-    })
-  )
-};

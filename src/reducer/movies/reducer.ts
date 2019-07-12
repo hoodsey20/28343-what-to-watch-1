@@ -1,4 +1,4 @@
-import ActionTypes from './action-types';
+import { ActionTypes, MoviesState, MoviesActionTypes, Review } from "./types";
 
 const {
   SET_FILTER_CATEGORY,
@@ -7,7 +7,7 @@ const {
   LOAD_PROMO,
   ADD_REVIEW,
   ADD_REVIEW_ERROR,
-  SET_FAVORITE_STATUS,
+  SET_FAVORITE_STATUS
 } = ActionTypes;
 
 const initialState = {
@@ -15,7 +15,7 @@ const initialState = {
   movies: [],
   promo: null,
   reviews: {},
-  addReviewError: null,
+  addReviewError: null
 };
 
 function updatePromo(promo, newData, id) {
@@ -25,7 +25,11 @@ function updatePromo(promo, newData, id) {
   return promo;
 }
 
-function updateReviews(reviews, newData, id) {
+function updateReviews(
+  reviews: MoviesState["reviews"],
+  newData: Review[],
+  id: number
+) {
   const newReviews = Object.assign({}, reviews);
   if (newData.length) {
     newReviews[id] = newData;
@@ -48,42 +52,61 @@ function updateFavoriteStatus(movies, newData, id) {
   return movies;
 }
 
-export const reducer = (state = initialState, action) => {
+export const reducer = (
+  state = initialState,
+  action: MoviesActionTypes
+): MoviesState => {
   switch (action.type) {
     case SET_FILTER_CATEGORY:
       return Object.assign({}, state, {
-        category: action.payload,
+        category: action.payload
       });
 
     case LOAD_MOVIES:
       return Object.assign({}, state, {
-        movies: action.payload,
+        movies: action.payload
       });
 
     case LOAD_REVIEWS:
       return Object.assign({}, state, {
-        reviews: updateReviews(state.reviews, action.payload.data, action.payload.movieId),
+        reviews: updateReviews(
+          state.reviews,
+          action.payload["data"],
+          action.payload["movieId"]
+        )
       });
 
     case LOAD_PROMO:
       return Object.assign({}, state, {
-        promo: action.payload,
+        promo: action.payload
       });
 
     case ADD_REVIEW:
       return Object.assign({}, state, {
-        reviews: updateReviews(state.reviews, action.payload.data, action.payload.movieId),
+        reviews: updateReviews(
+          state.reviews,
+          action.payload["data"],
+          action.payload["movieId"]
+        )
       });
 
     case ADD_REVIEW_ERROR:
       return Object.assign({}, state, {
-        addReviewError: action.payload,
+        addReviewError: action.payload
       });
 
     case SET_FAVORITE_STATUS:
       return Object.assign({}, state, {
-        movies: updateFavoriteStatus(state.movies, action.payload.data, action.payload.movieId),
-        promo: updatePromo(state.promo, action.payload.data, action.payload.movieId)
+        movies: updateFavoriteStatus(
+          state.movies,
+          action.payload["data"],
+          action.payload["movieId"]
+        ),
+        promo: updatePromo(
+          state.promo,
+          action.payload["data"],
+          action.payload["movieId"]
+        )
       });
   }
 
